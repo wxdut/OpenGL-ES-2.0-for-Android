@@ -45,12 +45,6 @@ public class OpenGL_05_HeightMap extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mGlView = new GLSurfaceView(this);
-        // Request an OpenGL ES 2.0 compatible context.
-        mGlView.setEGLContextClientVersion(2);
-        mRenderer = new CusRenderer();
-        mGlView.setRenderer(mRenderer);
-        setContentView(mGlView);
         mGlView.setOnTouchListener(new View.OnTouchListener() {
             float previousX, previousY;
 
@@ -81,6 +75,11 @@ public class OpenGL_05_HeightMap extends BaseActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public int layoutResId() {
+        return 0;
     }
 
     @Override

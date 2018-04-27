@@ -2,7 +2,6 @@ package wxplus.opengles2forandroid;
 
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
-import android.os.Bundle;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -49,6 +48,11 @@ public class OpenGL_03_Simple_Object extends BaseActivity {
     protected Puck mPuck;
     protected Mallet mTopMallet;
     protected Mallet mBottomMallet;
+
+    @Override
+    public int layoutResId() {
+        return 0;
+    }
 
     @Override
     public GLSurfaceView.Renderer createGlViewRenderer() {

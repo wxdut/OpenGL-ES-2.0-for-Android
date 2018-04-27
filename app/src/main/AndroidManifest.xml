@@ -18,7 +18,7 @@
         </activity>
 
         <activity android:name=".OpenGL_01_Simple_Color"/>
-        <activity android:name=".OpenGL_02_Simple_Texture"/>
+        <activity android:name=".OpenGL_02_Texture"/>
         <activity android:name=".OpenGL_03_Simple_Object"/>
         <activity android:name=".OpenGL_04_Skybox"/>
         <activity android:name=".OpenGL_05_HeightMap"/>

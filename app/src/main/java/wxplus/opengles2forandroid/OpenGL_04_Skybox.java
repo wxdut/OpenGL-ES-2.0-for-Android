@@ -11,7 +11,6 @@ import javax.microedition.khronos.opengles.GL10;
 
 import wxplus.opengles2forandroid.obj.Skybox;
 import wxplus.opengles2forandroid.programs.SkyboxShaderProgram;
-import wxplus.opengles2forandroid.programs.TextureShaderProgram;
 import wxplus.opengles2forandroid.utils.TextureUtils;
 
 import static android.opengl.GLES20.GL_COLOR_BUFFER_BIT;
@@ -64,6 +63,11 @@ public class OpenGL_04_Skybox extends BaseActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public int layoutResId() {
+        return 0;
     }
 
     @Override

@@ -62,6 +62,11 @@ public class OpenGL_01_Simple_Color extends BaseActivity {
     protected int uColorLocation;
 
     @Override
+    public int layoutResId() {
+        return 0;
+    }
+
+    @Override
     public GLSurfaceView.Renderer createGlViewRenderer() {
         return new CusRenderer();
     }

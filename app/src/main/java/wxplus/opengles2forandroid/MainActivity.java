@@ -1,6 +1,7 @@
 package wxplus.opengles2forandroid;
 
 import android.content.pm.ActivityInfo;
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,23 +48,16 @@ public class MainActivity extends BaseActivity {
                 layoutContent.addView(menuItemView);
             }
         }
+        startActivity(OpenGL_02_Texture.class);
     }
 
+    @Override
+    public int layoutResId() {
+        return 0;
+    }
 
-    // onclick start
-    public void click_simple_color(View view) {
-        startActivity(OpenGL_01_Simple_Color.class);
-    }
-    public void click_simple_texture(View view) {
-        startActivity(OpenGL_02_Simple_Texture.class);
-    }
-    public void click_simple_object(View view) {
-        startActivity(OpenGL_03_Simple_Object.class);
-    }
-    public void click_sky_box(View view) {
-        startActivity(OpenGL_04_Skybox.class);
-    }
-    public void click_height_map(View view) {
-        startActivity(OpenGL_05_HeightMap.class);
+    @Override
+    public GLSurfaceView.Renderer createGlViewRenderer() {
+        return null;
     }
 }

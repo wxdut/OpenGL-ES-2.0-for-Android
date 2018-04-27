@@ -114,7 +114,7 @@ public class OpenGL_05_HeightMap extends BaseActivity {
             );
             mSkybox = new Skybox();
             mHeightMapShaderProgram = new HeightMapShaderProgram(mActivity);
-            mHeightMap = new HeightMap(BitmapFactory.decodeResource(getResources(), R.mipmap.heightmap));
+            mHeightMap = new HeightMap(BitmapFactory.decodeResource(getResources(), R.drawable.heightmap));
         }
 
         @Override

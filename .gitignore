@@ -6,3 +6,6 @@ build
 app/build
 
 *.iml
+app/app.iml
+gradle*
+*.properties

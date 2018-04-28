@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 
 import static android.opengl.GLES20.GL_LINEAR;
 import static android.opengl.GLES20.GL_LINEAR_MIPMAP_LINEAR;
+import static android.opengl.GLES20.GL_TEXTURE0;
 import static android.opengl.GLES20.GL_TEXTURE_2D;
 import static android.opengl.GLES20.GL_TEXTURE_CUBE_MAP;
 import static android.opengl.GLES20.GL_TEXTURE_CUBE_MAP_NEGATIVE_X;
@@ -23,6 +24,7 @@ import static android.opengl.GLES20.GL_TEXTURE_CUBE_MAP_POSITIVE_Y;
 import static android.opengl.GLES20.GL_TEXTURE_CUBE_MAP_POSITIVE_Z;
 import static android.opengl.GLES20.GL_TEXTURE_MAG_FILTER;
 import static android.opengl.GLES20.GL_TEXTURE_MIN_FILTER;
+import static android.opengl.GLES20.glActiveTexture;
 import static android.opengl.GLES20.glBindTexture;
 import static android.opengl.GLES20.glDeleteTextures;
 import static android.opengl.GLES20.glGenTextures;
@@ -105,16 +107,11 @@ public class TextureUtils {
             return 0;
         }
 
+        // Set the active texture unit to texture unit 0.
+        glActiveTexture(GL_TEXTURE0 + textureUnit);
         // Bind to the texture in OpenGL
         glBindTexture(GL_TEXTURE_2D, textureObjectIds[0]);
 
-        // Set filtering: a default must be set, or the texture will be
-        // black.
-        glTexParameteri(GL_TEXTURE_2D,
-                GL_TEXTURE_MIN_FILTER,
-                GL_LINEAR_MIPMAP_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D,
-                GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         // Load the bitmap into the bound texture.
         texImage2D(GL_TEXTURE_2D, 0, bitmap, 0);
 

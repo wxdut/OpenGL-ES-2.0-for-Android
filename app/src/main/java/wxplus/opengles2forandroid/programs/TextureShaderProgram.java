@@ -13,6 +13,7 @@ import android.content.Context;
 import wxplus.opengles2forandroid.R;
 import wxplus.opengles2forandroid.obj.Object;
 
+import static android.opengl.GLES20.GL_CLAMP_TO_EDGE;
 import static android.opengl.GLES20.GL_FLOAT;
 import static android.opengl.GLES20.GL_LINEAR;
 import static android.opengl.GLES20.GL_LINEAR_MIPMAP_LINEAR;
@@ -20,6 +21,8 @@ import static android.opengl.GLES20.GL_TEXTURE0;
 import static android.opengl.GLES20.GL_TEXTURE_2D;
 import static android.opengl.GLES20.GL_TEXTURE_MAG_FILTER;
 import static android.opengl.GLES20.GL_TEXTURE_MIN_FILTER;
+import static android.opengl.GLES20.GL_TEXTURE_WRAP_S;
+import static android.opengl.GLES20.GL_TEXTURE_WRAP_T;
 import static android.opengl.GLES20.glActiveTexture;
 import static android.opengl.GLES20.glBindTexture;
 import static android.opengl.GLES20.glEnableVertexAttribArray;
@@ -33,11 +36,14 @@ import static android.opengl.GLES20.glVertexAttribPointer;
 import static wxplus.opengles2forandroid.utils.Constants.FLOATS_PER_TEXTURE_VERTEX;
 import static wxplus.opengles2forandroid.utils.Constants.FLOATS_PER_VERTEX;
 
-public class TextureShaderProgram extends ShaderProgram {    
+public class TextureShaderProgram extends ShaderProgram {
+
+    protected final int textureUnit;
+
     // Uniform locations
     protected final int uMatrixLocation;
     protected final int uTextureUnitLocation;
-    
+
     // Attribute locations
     protected final int aPositionLocation;
     protected final int aTextureCoordinatesLocation;
@@ -45,6 +51,7 @@ public class TextureShaderProgram extends ShaderProgram {
     public TextureShaderProgram(Context context) {
         super(context, R.raw.texture_vertex_shader,
             R.raw.texture_fragment_shader);
+        textureUnit = TextureUnitsHelper.obtain();
 
         // Retrieve uniform locations for the shader program.
         uMatrixLocation = glGetUniformLocation(program, U_MATRIX);
@@ -56,24 +63,24 @@ public class TextureShaderProgram extends ShaderProgram {
         aTextureCoordinatesLocation = glGetAttribLocation(program, A_TEXTURE_COORDINATES);
     }
 
-    public void bindData(float[] matrix, int textureId, Object obj) {
+    public void bindData(float[] matrix, Object obj) {
         // use Program
         glUseProgram(program);
-
         // Pass the matrix into the shader program.
         glUniformMatrix4fv(uMatrixLocation, 1, false, matrix, 0);
-
         // Set the active texture unit to texture unit 0.
-        glActiveTexture(GL_TEXTURE0);
-
+        glActiveTexture(GL_TEXTURE0 + textureUnit);
         // Bind the texture to this unit.
-        glBindTexture(GL_TEXTURE_2D, textureId);
+        glBindTexture(GL_TEXTURE_2D, textureUnit);
+        // set the texture wrapping parameters
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); // note that we set the container wrapping method to GL_CLAMP_TO_EDGE
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        // set texture filtering parameters
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         // Tell the texture uniform sampler to use this texture in the shader by
         // telling it to read from texture unit 0.
         glUniform1i(uTextureUnitLocation, 0);
-
         // 设置顶点数据
         glVertexAttribPointer(aPositionLocation, FLOATS_PER_VERTEX, GL_FLOAT, false, 0, obj.getVertexBuffer());
         glEnableVertexAttribArray(aPositionLocation);

@@ -28,7 +28,7 @@ public class Mallet extends Object {
         this.pointCountAroundCircleTop = pointCountAroundCircleTop;
         this.pointCountAroundCircleBottom = pointCountAroundCircleBottom;
 
-        mVertexData = new float[floatSizeOfVertexs(
+        mVertexData = new float[floatSizeOfVertices(
                 sizeOfCircleInVertex(pointCountAroundCircleTop) + sizeOfCircleInVertex(pointCountAroundCircleBottom)
                         + sizeOfCylinderInVertex(pointCountAroundCircleTop) + sizeOfCylinderInVertex(pointCountAroundCircleBottom)
         )]; // 两个Circle，两个Cylinder

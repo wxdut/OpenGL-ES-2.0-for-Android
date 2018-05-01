@@ -10,7 +10,6 @@ import java.util.List;
 import wxplus.opengles2forandroid.obj.base.Circle;
 import wxplus.opengles2forandroid.obj.base.Cylinder;
 import wxplus.opengles2forandroid.obj.base.Square;
-import wxplus.opengles2forandroid.programs.ShaderProgram;
 import wxplus.opengles2forandroid.utils.GlobalConfig;
 
 import static android.opengl.GLES20.GL_TRIANGLE_FAN;
@@ -44,11 +43,11 @@ public class Object {
 
             // Triangle Fan
             0.5f, 0.5f,
-            0f, 0f,
-            1f, 0f,
-            1f, 1f,
             0f, 1f,
-            0f, 0f
+            1f, 1f,
+            1f, 0f,
+            0f, 0f,
+            0f, 1f
     };
 
     protected List<DrawTask> drawTaskList = new ArrayList<>();
@@ -64,23 +63,23 @@ public class Object {
         mVertexData[offset++] = square.center.y;
         mVertexData[offset++] = square.center.z;
         // 左下角
-        mVertexData[offset++] = square.center.x - square.widht / 2;
+        mVertexData[offset++] = square.center.x - square.width / 2;
         mVertexData[offset++] = square.center.y - square.height / 2;
         mVertexData[offset++] = square.center.z;
         // 右下角
-        mVertexData[offset++] = square.center.x + square.widht / 2;
+        mVertexData[offset++] = square.center.x + square.width / 2;
         mVertexData[offset++] = square.center.y - square.height / 2;
         mVertexData[offset++] = square.center.z;
         // 右上角
-        mVertexData[offset++] = square.center.x + square.widht / 2;
+        mVertexData[offset++] = square.center.x + square.width / 2;
         mVertexData[offset++] = square.center.y + square.height / 2;
         mVertexData[offset++] = square.center.z;
         // 左上角
-        mVertexData[offset++] = square.center.x - square.widht / 2;
+        mVertexData[offset++] = square.center.x - square.width / 2;
         mVertexData[offset++] = square.center.y + square.height / 2;
         mVertexData[offset++] = square.center.z;
         // 左下角(triangle fan)
-        mVertexData[offset++] = square.center.x - square.widht / 2;
+        mVertexData[offset++] = square.center.x - square.width / 2;
         mVertexData[offset++] = square.center.y - square.height / 2;
         mVertexData[offset++] = square.center.z;
         drawTaskList.add(new DrawTask() {
@@ -205,7 +204,7 @@ public class Object {
         return (pointCount + 1) * 2;
     }
 
-    public int floatSizeOfVertexs(int vertexCount) {
+    public int floatSizeOfVertices(int vertexCount) {
         return FLOATS_PER_VERTEX * vertexCount;
     }
 

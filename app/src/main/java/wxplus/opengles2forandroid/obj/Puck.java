@@ -24,7 +24,7 @@ public class Puck extends Object {
         this.center = center;
         this.pointCountAroundCircle = pointCountAroundCircle;
 
-        mVertexData = new float[floatSizeOfVertexs(sizeOfCircleInVertex(pointCountAroundCircle) + sizeOfCylinderInVertex(pointCountAroundCircle))];
+        mVertexData = new float[floatSizeOfVertices(sizeOfCircleInVertex(pointCountAroundCircle) + sizeOfCylinderInVertex(pointCountAroundCircle))];
         addCircle(new Circle(new Point(center.x, center.y, center.z + height / 2), radius), pointCountAroundCircle)
                 .addOpenCylinder(new Cylinder(center, radius, height), pointCountAroundCircle);
 

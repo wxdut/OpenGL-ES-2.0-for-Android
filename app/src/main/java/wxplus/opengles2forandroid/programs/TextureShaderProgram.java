@@ -12,6 +12,7 @@ import android.content.Context;
 
 import wxplus.opengles2forandroid.R;
 import wxplus.opengles2forandroid.obj.Object;
+import wxplus.opengles2forandroid.utils.TextureUtils;
 
 import static android.opengl.GLES20.GL_CLAMP_TO_EDGE;
 import static android.opengl.GLES20.GL_FLOAT;
@@ -38,7 +39,7 @@ import static wxplus.opengles2forandroid.utils.Constants.FLOATS_PER_VERTEX;
 
 public class TextureShaderProgram extends ShaderProgram {
 
-    protected final int textureUnit;
+    public final int textureUnit;
 
     // Uniform locations
     protected final int uMatrixLocation;
@@ -48,10 +49,11 @@ public class TextureShaderProgram extends ShaderProgram {
     protected final int aPositionLocation;
     protected final int aTextureCoordinatesLocation;
 
-    public TextureShaderProgram(Context context) {
+    public TextureShaderProgram(Context context, int resId) {
         super(context, R.raw.texture_vertex_shader,
             R.raw.texture_fragment_shader);
-        textureUnit = TextureUnitsHelper.obtain();
+
+        textureUnit = TextureUtils.loadTexture(context, resId);
 
         // Retrieve uniform locations for the shader program.
         uMatrixLocation = glGetUniformLocation(program, U_MATRIX);
@@ -72,15 +74,9 @@ public class TextureShaderProgram extends ShaderProgram {
         glActiveTexture(GL_TEXTURE0 + textureUnit);
         // Bind the texture to this unit.
         glBindTexture(GL_TEXTURE_2D, textureUnit);
-        // set the texture wrapping parameters
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); // note that we set the container wrapping method to GL_CLAMP_TO_EDGE
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        // set texture filtering parameters
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         // Tell the texture uniform sampler to use this texture in the shader by
         // telling it to read from texture unit 0.
-        glUniform1i(uTextureUnitLocation, 0);
+        glUniform1i(uTextureUnitLocation, textureUnit);
         // 设置顶点数据
         glVertexAttribPointer(aPositionLocation, FLOATS_PER_VERTEX, GL_FLOAT, false, 0, obj.getVertexBuffer());
         glEnableVertexAttribArray(aPositionLocation);

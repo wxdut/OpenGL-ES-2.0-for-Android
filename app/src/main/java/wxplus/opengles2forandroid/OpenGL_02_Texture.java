@@ -1,61 +1,24 @@
 package wxplus.opengles2forandroid;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.CheckBox;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
-
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import wxplus.opengles2forandroid.utils.TextureUtils;
+import wxplus.opengles2forandroid.obj.Table;
+import wxplus.opengles2forandroid.obj.base.Point;
+import wxplus.opengles2forandroid.programs.TextureShaderProgram;
 
 import static android.opengl.GLES20.GL_COLOR_BUFFER_BIT;
-import static android.opengl.GLES20.GL_COMPILE_STATUS;
-import static android.opengl.GLES20.GL_FLOAT;
-import static android.opengl.GLES20.GL_FRAGMENT_SHADER;
-import static android.opengl.GLES20.GL_LINEAR;
-import static android.opengl.GLES20.GL_LINEAR_MIPMAP_LINEAR;
-import static android.opengl.GLES20.GL_TEXTURE;
-import static android.opengl.GLES20.GL_TEXTURE0;
-import static android.opengl.GLES20.GL_TEXTURE1;
 import static android.opengl.GLES20.GL_TEXTURE_2D;
-import static android.opengl.GLES20.GL_TEXTURE_MAG_FILTER;
-import static android.opengl.GLES20.GL_TEXTURE_MIN_FILTER;
-import static android.opengl.GLES20.GL_TRIANGLE_FAN;
-import static android.opengl.GLES20.GL_VERTEX_SHADER;
-import static android.opengl.GLES20.glActiveTexture;
-import static android.opengl.GLES20.glAttachShader;
 import static android.opengl.GLES20.glBindTexture;
 import static android.opengl.GLES20.glClear;
 import static android.opengl.GLES20.glClearColor;
-import static android.opengl.GLES20.glCompileShader;
-import static android.opengl.GLES20.glCreateProgram;
-import static android.opengl.GLES20.glCreateShader;
-import static android.opengl.GLES20.glDrawArrays;
-import static android.opengl.GLES20.glEnableVertexAttribArray;
-import static android.opengl.GLES20.glGenTextures;
-import static android.opengl.GLES20.glGenerateMipmap;
-import static android.opengl.GLES20.glGetAttribLocation;
-import static android.opengl.GLES20.glGetShaderiv;
-import static android.opengl.GLES20.glGetUniformLocation;
-import static android.opengl.GLES20.glLinkProgram;
-import static android.opengl.GLES20.glShaderSource;
-import static android.opengl.GLES20.glTexParameteri;
-import static android.opengl.GLES20.glUniform1i;
-import static android.opengl.GLES20.glUniformMatrix4fv;
-import static android.opengl.GLES20.glUseProgram;
-import static android.opengl.GLES20.glVertexAttribPointer;
 import static android.opengl.GLES20.glViewport;
-import static android.opengl.GLUtils.texImage2D;
 import static android.opengl.Matrix.orthoM;
-import static wxplus.opengles2forandroid.utils.Constants.BYTES_PER_FLOAT;
 
 /**
  * Created by hi on 2017/10/29.
@@ -63,27 +26,13 @@ import static wxplus.opengles2forandroid.utils.Constants.BYTES_PER_FLOAT;
 
 public class OpenGL_02_Texture extends BaseActivity {
 
-    protected float[] mVertexArray = new float[] { // OpenGL的坐标是[-1, 1]，这里的Vertex正好定义了一个居中的正方形
-            // Triangle Fan x, y
-            0f,    0f,
-            -0.5f, -0.5f,
-            0.5f, -0.5f,
-            0.5f,  0.5f,
-            -0.5f,  0.5f,
-            -0.5f, -0.5f
-    };
-    protected float[] mTextureArray = new float[] {
-            0.5f, 0.5f,
-            0f, 1f,
-            1f, 1f,
-            1f, 0f,
-            0f, 0f,
-            0f, 1f
-    };
     protected float[] mProjectionMatrix = new float[16];
 
-    protected int textureId1;
-    protected int textureId2;
+    protected TextureShaderProgram mTextureProgramBottom;
+    protected TextureShaderProgram mTextureProgramTop;
+
+    protected Table mBottomTable;
+    protected Table mTopTable;
 
     @Override
     public int layoutResId() {
@@ -99,7 +48,10 @@ public class OpenGL_02_Texture extends BaseActivity {
 
         @Override
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-
+            mTextureProgramBottom = new TextureShaderProgram(mActivity, R.drawable.gl_02_texture_texture1);
+            mTextureProgramTop = new TextureShaderProgram(mActivity, R.drawable.gl_02_texture_texture2);
+            mBottomTable = new Table(new Point(0, 0, 0), 1, 1);
+            mTopTable = new Table(new Point(0, 0, 0), 0.5f, 0.5f);
         }
 
         @Override
@@ -114,16 +66,16 @@ public class OpenGL_02_Texture extends BaseActivity {
         public void onDrawFrame(GL10 gl) {
             glClearColor(1f, 1f, 1f, 1f);
             glClear(GL_COLOR_BUFFER_BIT);
-            glBindTexture(GL_TEXTURE_2D, 0);
             if (mShowBottomTextureView.isChecked()) {
-                glActiveTexture(GL_TEXTURE0);
-                glBindTexture(GL_TEXTURE_2D, textureId1);
+                glBindTexture(GL_TEXTURE_2D, mTextureProgramBottom.textureUnit);
+                mTextureProgramBottom.bindData(mProjectionMatrix, mBottomTable);
+                mBottomTable.draw();
             }
             if (mShowTopTextureView.isChecked()) {
-                glActiveTexture(GL_TEXTURE1);
-                glBindTexture(GL_TEXTURE_2D, textureId2);
+                glBindTexture(GL_TEXTURE_2D, mTextureProgramTop.textureUnit);
+                mTextureProgramTop.bindData(mProjectionMatrix, mTopTable);
+                mTopTable.draw();
             }
-            glDrawArrays(GL_TRIANGLE_FAN, 0, 6);
         }
     }
 

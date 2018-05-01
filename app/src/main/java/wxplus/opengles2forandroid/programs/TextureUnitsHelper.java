@@ -1,8 +1,12 @@
 package wxplus.opengles2forandroid.programs;
 
-import java.util.Stack;
+import java.util.LinkedList;
+import java.util.List;
 
 import wxplus.opengles2forandroid.utils.GLog;
+
+import static android.opengl.GLES20.glDeleteTextures;
+import static android.opengl.GLES20.glGenTextures;
 
 /**
  * @author WangXiaoPlus
@@ -12,29 +16,22 @@ import wxplus.opengles2forandroid.utils.GLog;
 public class TextureUnitsHelper {
     public static final String TAG = TextureUnitsHelper.class.getSimpleName();
 
-    public static final int MIN_TEXTURE_UNITS_COUNT = 16;
-    protected static Stack<Integer> sTextureUnits = new Stack<Integer>();
-
-    static {
-        for (int i = 1; i <= MIN_TEXTURE_UNITS_COUNT; i++) {
-            sTextureUnits.push(Integer.valueOf(i));
-        }
-    }
+    protected static List<Integer> sTextureUnits = new LinkedList<>();
 
     public static int obtain() {
-        if (sTextureUnits.isEmpty()) {
-            throw new RuntimeException(TAG + "obtain, no unit is idle...");
+        final int[] texture = new int[1];
+        glGenTextures(1, texture, 0);
+        if (texture[0] == 0) {
+            GLog.e(TAG, "obtain, Could not generate a new OpenGL texture object.");
+            return 0;
         }
-        return sTextureUnits.pop();
+        sTextureUnits.add(texture[0]);
+        return texture[0];
     }
 
-    public static boolean recycle(int texture) {
-        if (texture <= 0 || texture > MIN_TEXTURE_UNITS_COUNT) {
-            GLog.e(TAG, "recycle, texture is illegal, texture = " + texture);
-            return false;
-        }
-        sTextureUnits.push(Integer.valueOf(texture));
-        return true;
+    public static void recycle(int texture) {
+        glDeleteTextures(1, new int[texture], 0);
+        sTextureUnits.remove(Integer.valueOf(texture));
     }
 
 }

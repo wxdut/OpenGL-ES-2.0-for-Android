@@ -17,8 +17,8 @@ public class Table extends Object {
     protected float width;
     protected float height;
 
-    public Table(Point center, float width, float height) {
-        this.center = center;
+    public Table(float width, float height) {
+        this.center = new Point(0, 0, 0);
         this.width = width;
         this.height = height;
         addSquare(new Square(center, width, height));
@@ -27,6 +27,6 @@ public class Table extends Object {
 
     @Override
     public int verticesCount() {
-        return sizeOfCircleInVertex(CIRCLE_VERTICES_COUNT);
+        return VERTEX_COUNT_SQUARE;
     }
 }

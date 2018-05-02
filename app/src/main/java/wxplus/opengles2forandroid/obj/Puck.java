@@ -15,23 +15,20 @@ public class Puck extends Object {
 
     public float radius; // 半径
     public float height; // 高度
-    public Point center = new Point(0, 0, 0); // 中心点
-    public int pointCountAroundCircle; // 圆的顶点数
+    public Point center; // 中心点
 
-    public Puck(Point center, float radius, float height, int pointCountAroundCircle) {
+    public Puck(float radius, float height) {
         this.radius = radius;
         this.height = height;
-        this.center = center;
-        this.pointCountAroundCircle = pointCountAroundCircle;
+        this.center = new Point(0, 0, 0);
 
-        mVertexData = new float[floatSizeOfVertices(sizeOfCircleInVertex(pointCountAroundCircle) + sizeOfCylinderInVertex(pointCountAroundCircle))];
-        addCircle(new Circle(new Point(center.x, center.y, center.z + height / 2), radius), pointCountAroundCircle)
-                .addOpenCylinder(new Cylinder(center, radius, height), pointCountAroundCircle);
+        addCircle(new Circle(new Point(center.x, center.y, center.z + height / 2), radius), CIRCLE_VERTICES_COUNT)
+                .addOpenCylinder(new Cylinder(center, radius, height), CIRCLE_VERTICES_COUNT);
 
     }
 
     @Override
     public int verticesCount() {
-        return sizeOfCircleInVertex(CIRCLE_VERTICES_COUNT);
+        return sizeOfCircleInVertex(CIRCLE_VERTICES_COUNT) + sizeOfCylinderInVertex(CIRCLE_VERTICES_COUNT);
     }
 }

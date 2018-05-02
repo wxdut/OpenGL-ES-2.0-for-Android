@@ -9,6 +9,7 @@
 package wxplus.opengles2forandroid.programs;
 
 import android.content.Context;
+import android.opengl.Matrix;
 
 import wxplus.opengles2forandroid.R;
 import wxplus.opengles2forandroid.obj.Object;
@@ -44,11 +45,13 @@ public class ColorShaderProgram extends ShaderProgram {
     }
 
 
-    public void bindData(float[] m, Object obj, float r, float g, float b, float a) {
+    public void bindData(float[] matrix, Object obj, float r, float g, float b, float a) {
         // 使用这个Program
         glUseProgram(program);
         // 矩阵变换
-        glUniformMatrix4fv(uMatrixLocation, 1, false, m, 0);
+        float[] mvpMatrix = new float[16];
+        Matrix.multiplyMM(mvpMatrix, 0, matrix, 0, obj.getModelMatrix(), 0);
+        glUniformMatrix4fv(uMatrixLocation, 1, false, mvpMatrix, 0);
         // 设置颜色
         glUniform4f(uColorLocation, r, g, b, a);
         // 设置顶点数据

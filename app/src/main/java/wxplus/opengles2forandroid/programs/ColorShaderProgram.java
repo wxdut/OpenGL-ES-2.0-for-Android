@@ -44,13 +44,13 @@ public class ColorShaderProgram extends ShaderProgram {
     }
 
 
-    public void bindData(float[] m, Object obj, float r, float g, float b) {
+    public void bindData(float[] m, Object obj, float r, float g, float b, float a) {
         // 使用这个Program
         glUseProgram(program);
         // 矩阵变换
         glUniformMatrix4fv(uMatrixLocation, 1, false, m, 0);
         // 设置颜色
-        glUniform4f(uColorLocation, r, g, b, 1f);
+        glUniform4f(uColorLocation, r, g, b, a);
         // 设置顶点数据
         glVertexAttribPointer(aPositionLocation, FLOATS_PER_VERTEX, GL_FLOAT, false, 0, obj.getVertexBuffer());
         glEnableVertexAttribArray(aPositionLocation);

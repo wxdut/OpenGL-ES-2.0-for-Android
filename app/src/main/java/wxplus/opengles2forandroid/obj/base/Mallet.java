@@ -38,4 +38,9 @@ public class Mallet extends Object {
                 .addOpenCylinder(new Cylinder(new Point(center.x, center.y, center.z - heightBottom / 2), radiusBottom, heightBottom), pointCountAroundCircleBottom);
 
     }
+
+    @Override
+    public int verticesCount() {
+        return 0;
+    }
 }

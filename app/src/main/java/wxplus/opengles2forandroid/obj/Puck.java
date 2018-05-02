@@ -29,4 +29,9 @@ public class Puck extends Object {
                 .addOpenCylinder(new Cylinder(center, radius, height), pointCountAroundCircle);
 
     }
+
+    @Override
+    public int verticesCount() {
+        return sizeOfCircleInVertex(CIRCLE_VERTICES_COUNT);
+    }
 }

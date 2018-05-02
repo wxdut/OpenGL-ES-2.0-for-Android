@@ -9,6 +9,7 @@
 package wxplus.opengles2forandroid.programs;
 
 import android.content.Context;
+import android.opengl.Matrix;
 
 import wxplus.opengles2forandroid.R;
 import wxplus.opengles2forandroid.obj.Object;
@@ -69,7 +70,9 @@ public class TextureShaderProgram extends ShaderProgram {
         // use Program
         glUseProgram(program);
         // Pass the matrix into the shader program.
-        glUniformMatrix4fv(uMatrixLocation, 1, false, matrix, 0);
+        float[] mvpMatrix = new float[16];
+        Matrix.multiplyMM(mvpMatrix, 0, matrix, 0, obj.getModelMatrix(), 0);
+        glUniformMatrix4fv(uMatrixLocation, 1, false, mvpMatrix, 0);
         // Set the active texture unit to texture unit 0.
         glActiveTexture(GL_TEXTURE0 + textureUnit);
         // Bind the texture to this unit.

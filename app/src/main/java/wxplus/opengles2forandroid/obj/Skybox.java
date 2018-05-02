@@ -65,4 +65,9 @@ public class Skybox extends Object {
             }
         });
     }
+
+    @Override
+    public int verticesCount() {
+        return sizeOfCircleInVertex(CIRCLE_VERTICES_COUNT);
+    }
 }

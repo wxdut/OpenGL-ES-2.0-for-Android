@@ -4,17 +4,15 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import wxplus.opengles2forandroid.obj.Table;
-import wxplus.opengles2forandroid.obj.base.Point;
+import wxplus.opengles2forandroid.obj.Photo;
 import wxplus.opengles2forandroid.programs.TextureShaderProgram;
 
 import static android.opengl.GLES20.GL_COLOR_BUFFER_BIT;
-import static android.opengl.GLES20.GL_TEXTURE_2D;
-import static android.opengl.GLES20.glBindTexture;
 import static android.opengl.GLES20.glClear;
 import static android.opengl.GLES20.glClearColor;
 import static android.opengl.GLES20.glViewport;
@@ -31,8 +29,8 @@ public class OpenGL_02_Texture extends BaseActivity {
     protected TextureShaderProgram mTextureProgramBottom;
     protected TextureShaderProgram mTextureProgramTop;
 
-    protected Table mBottomTable;
-    protected Table mTopTable;
+    protected Photo mBottomPhoto;
+    protected Photo mTopPhoto;
 
     @Override
     public int layoutResId() {
@@ -50,8 +48,8 @@ public class OpenGL_02_Texture extends BaseActivity {
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
             mTextureProgramBottom = new TextureShaderProgram(mActivity, R.drawable.gl_02_texture_texture1);
             mTextureProgramTop = new TextureShaderProgram(mActivity, R.drawable.gl_02_texture_texture2);
-            mBottomTable = new Table(new Point(0, 0, 0), 1, 1);
-            mTopTable = new Table(new Point(0, 0, 0), 0.5f, 0.5f);
+            mBottomPhoto = new Photo(2, 2, false);
+            mTopPhoto = new Photo(0.5f, 0.5f, true);
         }
 
         @Override
@@ -67,14 +65,15 @@ public class OpenGL_02_Texture extends BaseActivity {
             glClearColor(1f, 1f, 1f, 1f);
             glClear(GL_COLOR_BUFFER_BIT);
             if (mShowBottomTextureView.isChecked()) {
-                glBindTexture(GL_TEXTURE_2D, mTextureProgramBottom.textureUnit);
-                mTextureProgramBottom.bindData(mProjectionMatrix, mBottomTable);
-                mBottomTable.draw();
+                mTextureProgramBottom.bindData(mProjectionMatrix, mBottomPhoto);
+                mBottomPhoto.draw();
             }
             if (mShowTopTextureView.isChecked()) {
-                glBindTexture(GL_TEXTURE_2D, mTextureProgramTop.textureUnit);
-                mTextureProgramTop.bindData(mProjectionMatrix, mTopTable);
-                mTopTable.draw();
+                if (mRotateTopTextureView.isChecked()) {
+                    mTopPhoto.rotate(2);
+                }
+                mTextureProgramTop.bindData(mProjectionMatrix, mTopPhoto);
+                mTopPhoto.draw();
             }
         }
     }
@@ -82,6 +81,7 @@ public class OpenGL_02_Texture extends BaseActivity {
 
     protected CheckBox mShowBottomTextureView;
     protected CheckBox mShowTopTextureView;
+    protected CheckBox mRotateTopTextureView;
 
 
     @Override
@@ -89,6 +89,9 @@ public class OpenGL_02_Texture extends BaseActivity {
         super.onCreate(savedInstanceState);
         mShowBottomTextureView = findViewById(R.id.cb1);
         mShowTopTextureView = findViewById(R.id.cb2);
+        mRotateTopTextureView = findViewById(R.id.cb3);
         mShowBottomTextureView.setChecked(true);
+        mShowTopTextureView.setChecked(true);
+        mRotateTopTextureView.setChecked(true);
     }
 }

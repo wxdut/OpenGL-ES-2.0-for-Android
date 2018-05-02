@@ -105,4 +105,9 @@ public class HeightMap extends Object {
 
         return indexData;
     }
+
+    @Override
+    public int verticesCount() {
+        return 0;
+    }
 }

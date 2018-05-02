@@ -1,5 +1,7 @@
 package wxplus.opengles2forandroid.obj;
 
+import android.opengl.Matrix;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -17,6 +19,7 @@ import static android.opengl.GLES20.GL_TRIANGLE_STRIP;
 import static android.opengl.GLES20.glDrawArrays;
 import static wxplus.opengles2forandroid.utils.Constants.BYTES_PER_FLOAT;
 import static wxplus.opengles2forandroid.utils.Constants.BYTES_PER_SHORT;
+import static wxplus.opengles2forandroid.utils.Constants.FLOATS_PER_TEXTURE_VERTEX;
 import static wxplus.opengles2forandroid.utils.Constants.FLOATS_PER_VERTEX;
 import static wxplus.opengles2forandroid.utils.Constants.VERTEX_COUNT_SQUARE;
 
@@ -27,61 +30,87 @@ import static wxplus.opengles2forandroid.utils.Constants.VERTEX_COUNT_SQUARE;
  * 图形的基类，提供共有方法
  */
 
-public class Object {
+public abstract class Object {
     public static final String TAG = Object.class.getSimpleName();
+
+    protected static final int CIRCLE_VERTICES_COUNT = 100; // 圆形周边默认的顶点数
+    protected static final int DEFAULT_VERTICES_COUNT = 4; // Object默认的顶点数量
+
+    protected float[] mModelMatrix = new float[16]; // Model变换矩阵
 
     protected FloatBuffer mVertexBuffer;
     protected float[] mVertexData;
-    protected int offset = 0;
+    protected int offsetVertexData = 0;
 
     protected ShortBuffer mIndexBuffer;
     protected short[] mIndexData;
 
     protected FloatBuffer mTextureBuffer;
-    protected static final float[] TEXTURE_DATA = {
-            // Order of coordinates:  S, T
-
-            // Triangle Fan
+    protected float[] mTextureData;
+    protected int offsetTextureData = 0;
+    protected static final float[] DEFAULT_TEXTURE_DATA = new float[]{
             0.5f, 0.5f,
-            0f, 1f,
-            1f, 1f,
-            1f, 0f,
             0f, 0f,
-            0f, 1f
+            1f, 0f,
+            1f, 1f,
+            0f, 1f,
+            0f, 0f
     };
+
+    public Object() {
+        int count = verticesCount();
+        if (count <= 0) {
+            count = DEFAULT_VERTICES_COUNT;
+        }
+        mVertexData = new float[floatSizeOfVertices(count)];
+        mTextureData = new float[floatSizeOfTextureVertices(count)];
+        Matrix.setIdentityM(mModelMatrix, 0);
+    }
 
     protected List<DrawTask> drawTaskList = new ArrayList<>();
 
     public Object addSquare(Square square) {
-        final int startVertex = offset / FLOATS_PER_VERTEX;
+        final int startVertex = offsetVertexData / FLOATS_PER_VERTEX;
         final int vertexCount = VERTEX_COUNT_SQUARE;
-        if (mVertexData == null || mVertexData.length - offset < vertexCount * FLOATS_PER_VERTEX) {
+        if (mVertexData == null || mVertexData.length - offsetVertexData < vertexCount * FLOATS_PER_VERTEX) {
+            if (GlobalConfig.DEBUG) {
+                throw new IndexOutOfBoundsException(TAG + ", addSquare, mVertexData is not big enough");
+            }
+            return this;
+        }
+        if (mTextureData == null || mTextureData.length - offsetTextureData < vertexCount * FLOATS_PER_TEXTURE_VERTEX) {
+            if (GlobalConfig.DEBUG) {
+                throw new IndexOutOfBoundsException(TAG + ", addSquare, mTextureData is not big enough");
+            }
             return this;
         }
         // 先确定正方形中心的坐标
-        mVertexData[offset++] = square.center.x;
-        mVertexData[offset++] = square.center.y;
-        mVertexData[offset++] = square.center.z;
+        mVertexData[offsetVertexData++] = square.center.x;
+        mVertexData[offsetVertexData++] = square.center.y;
+        mVertexData[offsetVertexData++] = square.center.z;
         // 左下角
-        mVertexData[offset++] = square.center.x - square.width / 2;
-        mVertexData[offset++] = square.center.y - square.height / 2;
-        mVertexData[offset++] = square.center.z;
+        mVertexData[offsetVertexData++] = square.center.x - square.width / 2;
+        mVertexData[offsetVertexData++] = square.center.y - square.height / 2;
+        mVertexData[offsetVertexData++] = square.center.z;
         // 右下角
-        mVertexData[offset++] = square.center.x + square.width / 2;
-        mVertexData[offset++] = square.center.y - square.height / 2;
-        mVertexData[offset++] = square.center.z;
+        mVertexData[offsetVertexData++] = square.center.x + square.width / 2;
+        mVertexData[offsetVertexData++] = square.center.y - square.height / 2;
+        mVertexData[offsetVertexData++] = square.center.z;
         // 右上角
-        mVertexData[offset++] = square.center.x + square.width / 2;
-        mVertexData[offset++] = square.center.y + square.height / 2;
-        mVertexData[offset++] = square.center.z;
+        mVertexData[offsetVertexData++] = square.center.x + square.width / 2;
+        mVertexData[offsetVertexData++] = square.center.y + square.height / 2;
+        mVertexData[offsetVertexData++] = square.center.z;
         // 左上角
-        mVertexData[offset++] = square.center.x - square.width / 2;
-        mVertexData[offset++] = square.center.y + square.height / 2;
-        mVertexData[offset++] = square.center.z;
+        mVertexData[offsetVertexData++] = square.center.x - square.width / 2;
+        mVertexData[offsetVertexData++] = square.center.y + square.height / 2;
+        mVertexData[offsetVertexData++] = square.center.z;
         // 左下角(triangle fan)
-        mVertexData[offset++] = square.center.x - square.width / 2;
-        mVertexData[offset++] = square.center.y - square.height / 2;
-        mVertexData[offset++] = square.center.z;
+        mVertexData[offsetVertexData++] = square.center.x - square.width / 2;
+        mVertexData[offsetVertexData++] = square.center.y - square.height / 2;
+        mVertexData[offsetVertexData++] = square.center.z;
+
+        mTextureData = DEFAULT_TEXTURE_DATA;
+
         drawTaskList.add(new DrawTask() {
             @Override
             public void draw() {
@@ -92,24 +121,38 @@ public class Object {
     }
 
     public Object addCircle(Circle circle, int pointCount) {
-        final int startVertex = offset / FLOATS_PER_VERTEX;
+        final int startVertex = offsetVertexData / FLOATS_PER_VERTEX;
         final int vertexCount = sizeOfCircleInVertex(pointCount);
-        if (mVertexData == null || mVertexData.length - offset < vertexCount * FLOATS_PER_VERTEX) {
+        if (mVertexData == null || mVertexData.length - offsetVertexData < vertexCount * FLOATS_PER_VERTEX) {
             if (GlobalConfig.DEBUG) {
                 throw new IndexOutOfBoundsException(TAG + ", addCircle, mVertexData is not big enough");
             }
             return this;
         }
+        if (mTextureData == null || mTextureData.length - offsetTextureData < vertexCount * FLOATS_PER_TEXTURE_VERTEX) {
+            if (GlobalConfig.DEBUG) {
+                throw new IndexOutOfBoundsException(TAG + ", addCircle, mTextureData is not big enough");
+            }
+            return this;
+        }
         // 先确定圆心的坐标
-        mVertexData[offset++] = circle.center.x;
-        mVertexData[offset++] = circle.center.y;
-        mVertexData[offset++] = circle.center.z;
+        mVertexData[offsetVertexData++] = circle.center.x;
+        mVertexData[offsetVertexData++] = circle.center.y;
+        mVertexData[offsetVertexData++] = circle.center.z;
+        mTextureData[offsetTextureData++] = 0.5f;
+        mTextureData[offsetTextureData++] = 0.5f;
         // 循环赋值，确定圆上顶点的坐标(最后一个顶点赋值两次)
-        float radian = (float) (2 * Math.PI / pointCount); // 先计算出每一份的弧度值
+        final float radian = (float) (2 * Math.PI / pointCount); // 先计算出每一份的弧度值
         for (int i = 0; i <= pointCount; i++) {
-            mVertexData[offset++] = circle.center.x + circle.radius * (float) Math.cos(radian * i);
-            mVertexData[offset++] = circle.center.y + circle.radius * (float) Math.sin(radian * i);
-            mVertexData[offset++] = circle.center.z;
+            final float x = circle.center.x + circle.radius * (float) Math.cos(radian * i);
+            final float y = circle.center.y + circle.radius * (float) Math.sin(radian * i);
+            final float z = circle.center.z;
+            // vertex 赋值
+            mVertexData[offsetVertexData++] = x;
+            mVertexData[offsetVertexData++] = y;
+            mVertexData[offsetVertexData++] = z;
+            mTextureData[offsetTextureData++] = (x + circle.radius) / (2 * circle.radius);
+            mTextureData[offsetTextureData++] = (y + circle.radius) / (2 * circle.radius);
         }
         drawTaskList.add(new DrawTask() {
             @Override
@@ -121,11 +164,17 @@ public class Object {
     }
 
     public Object addOpenCylinder(Cylinder cylinder, int pointCount) {
-        final int startVertex = offset / FLOATS_PER_VERTEX;
+        final int startVertex = offsetVertexData / FLOATS_PER_VERTEX;
         final int vertexCount = sizeOfCylinderInVertex(pointCount);
-        if (mVertexData == null || mVertexData.length - offset < vertexCount * FLOATS_PER_VERTEX) {
+        if (mVertexData == null || mVertexData.length - offsetVertexData < vertexCount * FLOATS_PER_VERTEX) {
             if (GlobalConfig.DEBUG) {
                 throw new IndexOutOfBoundsException(TAG + ", addOpenCylinder, mVertexData is not big enough");
+            }
+            return this;
+        }
+        if (mTextureData == null || mTextureData.length - offsetTextureData < vertexCount * FLOATS_PER_TEXTURE_VERTEX) {
+            if (GlobalConfig.DEBUG) {
+                throw new IndexOutOfBoundsException(TAG + ", addOpenCylinder, mTextureData is not big enough");
             }
             return this;
         }
@@ -137,13 +186,13 @@ public class Object {
             float x = cylinder.center.x + cylinder.radius * (float) Math.cos(i + radian);
             float y = cylinder.center.y + cylinder.radius * (float) Math.sin(i + radian);
             // top
-            mVertexData[offset++] = x;
-            mVertexData[offset++] = y;
-            mVertexData[offset++] = topZ;
+            mVertexData[offsetVertexData++] = x;
+            mVertexData[offsetVertexData++] = y;
+            mVertexData[offsetVertexData++] = topZ;
             // bottom
-            mVertexData[offset++] = x;
-            mVertexData[offset++] = y;
-            mVertexData[offset++] = bottomZ;
+            mVertexData[offsetVertexData++] = x;
+            mVertexData[offsetVertexData++] = y;
+            mVertexData[offsetVertexData++] = bottomZ;
         }
         drawTaskList.add(new DrawTask() {
             @Override
@@ -169,10 +218,10 @@ public class Object {
     public FloatBuffer getTextureBuffer() {
         if (mTextureBuffer == null) {
             mTextureBuffer = ByteBuffer
-                    .allocateDirect(TEXTURE_DATA.length * BYTES_PER_FLOAT)
+                    .allocateDirect(mTextureData.length * BYTES_PER_FLOAT)
                     .order(ByteOrder.nativeOrder())
                     .asFloatBuffer()
-                    .put(TEXTURE_DATA);
+                    .put(mTextureData);
         }
         mTextureBuffer.position(0);
         return mTextureBuffer;
@@ -208,7 +257,28 @@ public class Object {
         return FLOATS_PER_VERTEX * vertexCount;
     }
 
+    public int floatSizeOfTextureVertices(int vertexCount) {
+        return FLOATS_PER_TEXTURE_VERTEX * vertexCount;
+    }
+
+    public abstract int verticesCount();
+
     public interface DrawTask {
         void draw();
+    }
+
+    public float[] getModelMatrix() {
+        return mModelMatrix;
+    }
+
+    // 旋转、缩放、平移动画
+    public void rotate(int degrees) {
+        Matrix.rotateM(mModelMatrix, 0, degrees, 0, 0, 1);
+    }
+    public void translate(float x, float y, float z) {
+        Matrix.translateM(mModelMatrix, 0, x, y, z);
+    }
+    public void scale(float x, float y, float z) {
+        Matrix.scaleM(mModelMatrix, 0, x, y, z);
     }
 }

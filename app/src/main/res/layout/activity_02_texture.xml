@@ -28,6 +28,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="显示第顶部的Texture"/>
+            <CheckBox
+                android:id="@+id/cb3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="旋转第顶部的Texture"/>
         </LinearLayout>
     </ScrollView>
 

@@ -21,9 +21,12 @@ public class Table extends Object {
         this.center = center;
         this.width = width;
         this.height = height;
-        mVertexData = new float[VERTEX_COUNT_SQUARE * FLOATS_PER_VERTEX];
-
         addSquare(new Square(center, width, height));
 
+    }
+
+    @Override
+    public int verticesCount() {
+        return sizeOfCircleInVertex(CIRCLE_VERTICES_COUNT);
     }
 }

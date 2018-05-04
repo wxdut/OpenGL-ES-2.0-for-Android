@@ -18,6 +18,7 @@ import static android.opengl.GLES20.GL_TRIANGLES;
 import static android.opengl.GLES20.GL_TRIANGLE_FAN;
 import static android.opengl.GLES20.GL_TRIANGLE_STRIP;
 import static android.opengl.GLES20.GL_UNSIGNED_BYTE;
+import static android.opengl.GLES20.GL_UNSIGNED_SHORT;
 import static android.opengl.GLES20.glDrawArrays;
 import static android.opengl.GLES20.glDrawElements;
 import static wxplus.opengles2forandroid.utils.Constants.BYTES_PER_FLOAT;
@@ -114,7 +115,7 @@ public abstract class Object {
         drawTaskList.add(new DrawTask() {
             @Override
             public void draw() {
-                glDrawElements(GL_TRIANGLE_STRIP, 36, GL_UNSIGNED_BYTE, getIndexBuffer());
+                glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_SHORT, getIndexBuffer());
             }
         });
         return this;

@@ -34,7 +34,6 @@ public class OpenGL_04_Cube extends BaseActivity {
         return new GLSurfaceView.Renderer() {
             @Override
             public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-                ;
                 mCubeShaderProgram = new CubeShaderProgram(mActivity, new int[]{
                         R.drawable.cube_first, R.drawable.cube_second, R.drawable.cube_third,
                         R.drawable.cube_fourth, R.drawable.cube_fifth, R.drawable.cube_sixth

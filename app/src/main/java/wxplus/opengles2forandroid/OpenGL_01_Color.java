@@ -72,7 +72,6 @@ public class OpenGL_01_Color extends BaseActivity {
         @Override
         public void onSurfaceChanged(GL10 gl, int width, int height) {
             glViewport(0, 0, width, height);
-            // 正交变换，只考虑竖屏的情况
             float rate = height * 1.0f / width;
             Matrix.orthoM(mProjectionMatrix, 0, -1, 1, -rate, rate, -1, 1); // 正交变换，防止界面拉伸
         }

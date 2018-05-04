@@ -325,7 +325,7 @@ public abstract class Object {
 
     // 旋转、缩放、平移动画
     public void rotate(int degrees, float x, float y, float z) {
-        Matrix.rotateM(mModelMatrix, 0, degrees, z, y, z);
+        Matrix.rotateM(mModelMatrix, 0, degrees, x, y, z);
     }
 
     public void translate(float x, float y, float z) {

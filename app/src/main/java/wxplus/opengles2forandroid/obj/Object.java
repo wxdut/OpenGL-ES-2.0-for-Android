@@ -335,4 +335,9 @@ public abstract class Object {
     public void scale(float x, float y, float z) {
         Matrix.scaleM(mModelMatrix, 0, x, y, z);
     }
+
+    public void setScale(float x, float y, float z) {
+        Matrix.setIdentityM(mModelMatrix, 0);
+        Matrix.scaleM(mModelMatrix, 0, x, y, z);
+    }
 }

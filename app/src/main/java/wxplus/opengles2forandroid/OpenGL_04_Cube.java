@@ -2,6 +2,9 @@ package wxplus.opengles2forandroid;
 
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.widget.SeekBar;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -20,9 +23,37 @@ import static android.opengl.GLES20.glViewport;
 
 public class OpenGL_04_Cube extends BaseActivity {
 
+    protected SeekBar mSeekBar;
+
     @Override
     public int layoutResId() {
         return R.layout.activity_04_cube;
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mSeekBar = (SeekBar) findViewById(R.id.seek_bar);
+        mSeekBar.setProgress(50);
+        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) {
+                    float rate = (float) (progress / 50.0);
+                    mCube.setScale(rate, rate, rate);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     protected CubeShaderProgram mCubeShaderProgram;

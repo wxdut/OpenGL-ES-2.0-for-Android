@@ -20,7 +20,6 @@
         <activity android:name=".OpenGL_02_Texture"/>
         <activity android:name=".OpenGL_03_Hockey"/>
         <activity android:name=".OpenGL_04_Cube"/>
-        <activity android:name=".OpenGL_04_Skybox"/>
         <activity android:name=".OpenGL_05_HeightMap"/>
     </application>
 

@@ -14,9 +14,12 @@ import wxplus.opengles2forandroid.obj.base.Cylinder;
 import wxplus.opengles2forandroid.obj.base.Square;
 import wxplus.opengles2forandroid.utils.GlobalConfig;
 
+import static android.opengl.GLES20.GL_TRIANGLES;
 import static android.opengl.GLES20.GL_TRIANGLE_FAN;
 import static android.opengl.GLES20.GL_TRIANGLE_STRIP;
+import static android.opengl.GLES20.GL_UNSIGNED_BYTE;
 import static android.opengl.GLES20.glDrawArrays;
+import static android.opengl.GLES20.glDrawElements;
 import static wxplus.opengles2forandroid.utils.Constants.BYTES_PER_FLOAT;
 import static wxplus.opengles2forandroid.utils.Constants.BYTES_PER_SHORT;
 import static wxplus.opengles2forandroid.utils.Constants.FLOATS_PER_TEXTURE_VERTEX;
@@ -41,9 +44,39 @@ public abstract class Object {
     protected FloatBuffer mVertexBuffer;
     protected float[] mVertexData;
     protected int offsetVertexData = 0;
+    protected static final float[] DEFAULT_CUBE_VERTEX_DATA = new float[]{
+            -1, 1, 1,     // (0) Top-left near
+            1, 1, 1,     // (1) Top-right near
+            -1, -1, 1,     // (2) Bottom-left near
+            1, -1, 1,     // (3) Bottom-right near
+            -1, 1, -1,     // (4) Top-left far
+            1, 1, -1,     // (5) Top-right far
+            -1, -1, -1,     // (6) Bottom-left far
+            1, -1, -1      // (7) Bottom-right far
+    };
 
     protected ShortBuffer mIndexBuffer;
     protected short[] mIndexData;
+    public static final short[] DEFAULT_CUBE_INDEX_DATA = new short[]{
+            // Front
+            1, 3, 0,
+            0, 3, 2,
+            // Back
+            4, 6, 5,
+            5, 6, 7,
+            // Left
+            0, 2, 4,
+            4, 2, 6,
+            // Right
+            5, 7, 1,
+            1, 7, 3,
+            // Top
+            5, 1, 4,
+            4, 1, 0,
+            // Bottom
+            6, 2, 7,
+            7, 2, 3
+    };
 
     protected FloatBuffer mTextureBuffer;
     protected float[] mTextureData;
@@ -68,6 +101,24 @@ public abstract class Object {
     }
 
     protected List<DrawTask> drawTaskList = new ArrayList<>();
+
+    public Object addCube(float sideWidth) {
+        // Create a unit cube.
+        mVertexData = DEFAULT_CUBE_VERTEX_DATA;
+        for (int i = 0; i < mVertexData.length; i++) {
+            mVertexData[i] /= Math.abs(mVertexData[i]);
+            mVertexData[i] *= sideWidth;
+        }
+        // 6 indices per cube side
+        mIndexData = DEFAULT_CUBE_INDEX_DATA;
+        drawTaskList.add(new DrawTask() {
+            @Override
+            public void draw() {
+                glDrawElements(GL_TRIANGLE_STRIP, 36, GL_UNSIGNED_BYTE, getIndexBuffer());
+            }
+        });
+        return this;
+    }
 
     public Object addSquare(Square square) {
         final int startVertex = offsetVertexData / FLOATS_PER_VERTEX;
@@ -272,12 +323,14 @@ public abstract class Object {
     }
 
     // 旋转、缩放、平移动画
-    public void rotate(int degrees) {
-        Matrix.rotateM(mModelMatrix, 0, degrees, 0, 0, 1);
+    public void rotate(int degrees, float x, float y, float z) {
+        Matrix.rotateM(mModelMatrix, 0, degrees, z, y, z);
     }
+
     public void translate(float x, float y, float z) {
         Matrix.translateM(mModelMatrix, 0, x, y, z);
     }
+
     public void scale(float x, float y, float z) {
         Matrix.scaleM(mModelMatrix, 0, x, y, z);
     }

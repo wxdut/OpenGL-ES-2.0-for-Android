@@ -46,11 +46,10 @@ public class TextureUtils {
     public static final String TAG = TextureUtils.class.getSimpleName();
 
     public static int loadCubeMap(Context context, int[] cubeResources) {
-        final int[] textureObjectIds = new int[1];
-        glGenTextures(1, textureObjectIds, 0);
+        final int texture = TextureUnitsHelper.obtain();
 
-        if (textureObjectIds[0] == 0) {
-            GLog.e(TAG, "Could not generate a new OpenGL texture object.");
+        if (texture == 0) {
+            GLog.e(TAG, "loadCubeMap, Could not generate a new OpenGL texture object.");
             return 0;
         }
         final BitmapFactory.Options options = new BitmapFactory.Options();
@@ -64,15 +63,16 @@ public class TextureUtils {
             if (cubeBitmaps[i] == null) {
                 GLog.e(TAG, "Resource ID " + cubeResources[i]
                         + " could not be decoded.");
-                glDeleteTextures(1, textureObjectIds, 0);
                 return 0;
             }
         }
         // Linear filtering for minification and magnification
-        glBindTexture(GL_TEXTURE_CUBE_MAP, textureObjectIds[0]);
+        glActiveTexture(GL_TEXTURE0 + texture);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
 
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
         texImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, cubeBitmaps[0], 0);
         texImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, cubeBitmaps[1], 0);
 
@@ -81,13 +81,14 @@ public class TextureUtils {
 
         texImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, cubeBitmaps[4], 0);
         texImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, cubeBitmaps[5], 0);
-        glBindTexture(GL_TEXTURE_2D, 0);
+
+        glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 
         for (Bitmap bitmap : cubeBitmaps) {
             bitmap.recycle();
         }
 
-        return textureObjectIds[0];
+        return texture;
     }
 
     public static int loadTexture(Context context, int resourceId) {

@@ -70,7 +70,7 @@ public class OpenGL_02_Texture extends BaseActivity {
             }
             if (mShowTopTextureView.isChecked()) {
                 if (mRotateTopTextureView.isChecked()) {
-                    mTopPhoto.rotate(2);
+                    mTopPhoto.rotate(2, 0, 0, 1);
                 }
                 mTextureProgramTop.bindData(mProjectionMatrix, mTopPhoto);
                 mTopPhoto.draw();

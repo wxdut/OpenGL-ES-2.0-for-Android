@@ -24,7 +24,7 @@ public class Photo extends Object {
         } else {
             addSquare(new Square(center, width, height));
         }
-        rotate(180); // 图片默认是倒着的，这里翻过来。
+        rotate(180, 0, 0, 1); // 图片默认是倒着的，这里翻过来。
     }
 
     @Override

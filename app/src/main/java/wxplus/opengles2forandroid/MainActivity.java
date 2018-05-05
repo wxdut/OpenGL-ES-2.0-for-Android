@@ -48,6 +48,7 @@ public class MainActivity extends BaseActivity {
                 layoutContent.addView(menuItemView);
             }
         }
+        startActivity(OpenGL_01_Color.class);
     }
 
     @Override

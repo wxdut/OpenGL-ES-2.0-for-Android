@@ -80,9 +80,12 @@ public class OpenGL_01_Color extends BaseActivity {
         public void onDrawFrame(GL10 gl) {
             glClear(GL_COLOR_BUFFER_BIT);
             glClearColor(1, 1, 1, 1);
-            mColorShaderProgram.bindData(mProjectionMatrix, mColorPhoto, 0, 1, 0, 1);
+            float rate = (++time) % 100 / 100.0f;
+            mColorShaderProgram.bindData(mProjectionMatrix, mColorPhoto, 1 - rate, rate, rate * rate, rate); // 随便搞个效果
             mColorPhoto.draw();
         }
+
+        int time;
     }
 
 }

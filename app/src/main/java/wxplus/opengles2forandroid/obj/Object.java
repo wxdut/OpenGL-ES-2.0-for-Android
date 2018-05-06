@@ -45,7 +45,7 @@ public abstract class Object {
     protected FloatBuffer mVertexBuffer;
     protected float[] mVertexData;
     protected int offsetVertexData = 0;
-    protected static final float[] DEFAULT_CUBE_VERTEX_DATA = new float[]{
+    protected final float[] DEFAULT_CUBE_VERTEX_DATA = new float[]{
             -1, 1, 1,     // (0) Top-left near
             1, 1, 1,     // (1) Top-right near
             -1, -1, 1,     // (2) Bottom-left near
@@ -323,6 +323,10 @@ public abstract class Object {
         return mModelMatrix;
     }
 
+    public void resetModelMatrix() {
+        Matrix.setIdentityM(mModelMatrix, 0);
+    }
+
     // 旋转、缩放、平移动画
     public void rotate(int degrees, float x, float y, float z) {
         Matrix.rotateM(mModelMatrix, 0, degrees, x, y, z);
@@ -333,11 +337,6 @@ public abstract class Object {
     }
 
     public void scale(float x, float y, float z) {
-        Matrix.scaleM(mModelMatrix, 0, x, y, z);
-    }
-
-    public void setScale(float x, float y, float z) {
-        Matrix.setIdentityM(mModelMatrix, 0);
         Matrix.scaleM(mModelMatrix, 0, x, y, z);
     }
 }

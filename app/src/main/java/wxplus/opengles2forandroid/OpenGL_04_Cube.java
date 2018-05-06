@@ -4,6 +4,7 @@ import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.widget.CheckBox;
 import android.widget.SeekBar;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -23,42 +24,25 @@ import static android.opengl.GLES20.glViewport;
 
 public class OpenGL_04_Cube extends BaseActivity {
 
-    protected SeekBar mSeekBar;
-
     @Override
     public int layoutResId() {
         return R.layout.activity_04_cube;
     }
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mSeekBar = (SeekBar) findViewById(R.id.seek_bar);
-        mSeekBar.setProgress(50);
-        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser) {
-                    float rate = (float) (progress / 50.0);
-                    mCube.setScale(rate, rate, rate);
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-    }
-
     protected CubeShaderProgram mCubeShaderProgram;
     protected ProjectionHelper mProjectionHelper;
     protected Cube mCube;
+    protected float[][] mCubePositionArray = new float[][]{
+            new float[]{0.0f, 0.0f, 0.0f},
+            new float[]{-1.5f, -2.2f, -2.5f},
+            new float[]{2.4f, -0.4f, -3.5f},
+            new float[]{-1.7f, 3.0f, -7.5f},
+            new float[]{1.3f, -2.0f, -2.5f},
+            new float[]{1.5f, 2.0f, -2.5f},
+            new float[]{1.5f, 0.2f, -1.5f},
+            new float[]{-1.3f, 1.0f, -1.5f}
+    };
+
 
     @Override
     public GLSurfaceView.Renderer createGlViewRenderer() {
@@ -76,10 +60,10 @@ public class OpenGL_04_Cube extends BaseActivity {
             @Override
             public void onSurfaceChanged(GL10 gl, int width, int height) {
                 glViewport(0, 0, width, height);
-                final int fov = 90;
+                final int fov = 120;
                 float screenAspect = width * 1.0f / height;
-                Matrix.perspectiveM(mProjectionHelper.projectionMatrix, 0, fov, screenAspect, 1f, 10f);
-                Matrix.translateM(mProjectionHelper.viewMatrix, 0, 0, 0, -5);
+                Matrix.perspectiveM(mProjectionHelper.projectionMatrix, 0, fov, screenAspect, 1f, 20f);
+//                Matrix.translateM(mProjectionHelper.viewMatrix, 0, 0, 0, -5);
             }
 
             @Override
@@ -87,10 +71,24 @@ public class OpenGL_04_Cube extends BaseActivity {
                 glClearColor(1f, 1f, 1f, 1f);
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                 glEnable(GL_DEPTH_TEST);
-                mCube.rotate(1, 1, 0, 1);
-                mCubeShaderProgram.bindData(mProjectionHelper, mCube);
-                mCube.draw();
+                float radius = 10;
+                Matrix.setLookAtM(mProjectionHelper.viewMatrix, 0,
+                        (float) Math.sin(Math.toRadians(onDrawTime)) * radius, 0, (float) Math.cos(Math.toRadians(onDrawTime)) * radius,
+                        0, 0, 0, 0, 1, 0);
+                for (int i = 0; i < mCubePositionArray.length; i++) {
+                    mCube.resetModelMatrix();
+                    float[] cube = mCubePositionArray[i];
+                    mCube.translate(cube[0] * 2, cube[1] * 2, cube[2] * 1);
+                    mCube.rotate(modelRotateDegrees, 1, 0, 1);
+                    mCubeShaderProgram.bindData(mProjectionHelper, mCube);
+                    mCube.draw();
+                }
+                modelRotateDegrees++;
+                onDrawTime++;
             }
+
+            int modelRotateDegrees = 0;
+            int onDrawTime = 0;
         };
     }
 }

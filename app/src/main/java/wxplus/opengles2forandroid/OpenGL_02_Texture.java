@@ -4,13 +4,12 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import wxplus.opengles2forandroid.obj.Photo;
-import wxplus.opengles2forandroid.programs.TextureShaderProgram;
+import wxplus.opengles2forandroid.programs.TextureBaseShaderProgram;
 
 import static android.opengl.GLES20.GL_COLOR_BUFFER_BIT;
 import static android.opengl.GLES20.glClear;
@@ -26,8 +25,8 @@ public class OpenGL_02_Texture extends BaseActivity {
 
     protected float[] mProjectionMatrix = new float[16];
 
-    protected TextureShaderProgram mTextureProgramBottom;
-    protected TextureShaderProgram mTextureProgramTop;
+    protected TextureBaseShaderProgram mTextureProgramBottom;
+    protected TextureBaseShaderProgram mTextureProgramTop;
 
     protected Photo mBottomPhoto;
     protected Photo mTopPhoto;
@@ -46,8 +45,8 @@ public class OpenGL_02_Texture extends BaseActivity {
 
         @Override
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-            mTextureProgramBottom = new TextureShaderProgram(mActivity, R.drawable.gl_02_texture_texture1);
-            mTextureProgramTop = new TextureShaderProgram(mActivity, R.drawable.gl_02_texture_texture2);
+            mTextureProgramBottom = new TextureBaseShaderProgram(mActivity, R.drawable.gl_02_texture_texture1);
+            mTextureProgramTop = new TextureBaseShaderProgram(mActivity, R.drawable.gl_02_texture_texture2);
             mBottomPhoto = new Photo(2, 2, false);
             mTopPhoto = new Photo(0.5f, 0.5f, true);
         }

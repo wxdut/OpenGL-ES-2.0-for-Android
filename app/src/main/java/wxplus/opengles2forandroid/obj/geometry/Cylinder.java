@@ -1,4 +1,4 @@
-package wxplus.opengles2forandroid.obj.base;
+package wxplus.opengles2forandroid.obj.geometry;
 
 
 public class Cylinder {

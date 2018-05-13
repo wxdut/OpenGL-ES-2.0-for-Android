@@ -1,10 +1,9 @@
 package wxplus.opengles2forandroid.obj;
 
 
-import wxplus.opengles2forandroid.obj.base.Point;
-import wxplus.opengles2forandroid.obj.base.Square;
+import wxplus.opengles2forandroid.obj.geometry.Point;
+import wxplus.opengles2forandroid.obj.geometry.Square;
 
-import static wxplus.opengles2forandroid.utils.Constants.FLOATS_PER_VERTEX;
 import static wxplus.opengles2forandroid.utils.Constants.VERTEX_COUNT_SQUARE;
 
 /**

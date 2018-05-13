@@ -16,7 +16,6 @@ import wxplus.opengles2forandroid.obj.Object;
 
 import static android.opengl.GLES20.GL_FLOAT;
 import static android.opengl.GLES20.glEnableVertexAttribArray;
-import static android.opengl.GLES20.glGetAttribLocation;
 import static android.opengl.GLES20.glGetUniformLocation;
 import static android.opengl.GLES20.glUniform4f;
 import static android.opengl.GLES20.glUniformMatrix4fv;
@@ -24,24 +23,16 @@ import static android.opengl.GLES20.glUseProgram;
 import static android.opengl.GLES20.glVertexAttribPointer;
 import static wxplus.opengles2forandroid.utils.Constants.FLOATS_PER_VERTEX;
 
-public class ColorShaderProgram extends ShaderProgram {
-    // Uniform locations
-    private final int uMatrixLocation;
-    private final int uColorLocation;
+public class ColorBaseShaderProgram extends BaseShaderProgram {
 
-    // Attribute locations
-    private final int aPositionLocation;
+    private final int uColorHandle;
 
-    public ColorShaderProgram(Context context) {
+    public ColorBaseShaderProgram(Context context) {
         super(context, R.raw.color_vertex_shader,
                 R.raw.color_fragment_shader);
 
-        // Retrieve uniform locations for the shader program.
-        uMatrixLocation = glGetUniformLocation(program, U_MATRIX);
-        uColorLocation = glGetUniformLocation(program, U_COLOR);
+        uColorHandle = glGetUniformLocation(program, U_COLOR);
 
-        // Retrieve attribute locations for the shader program.
-        aPositionLocation = glGetAttribLocation(program, A_POSITION);
     }
 
 
@@ -51,11 +42,11 @@ public class ColorShaderProgram extends ShaderProgram {
         // 矩阵变换
         float[] mvpMatrix = new float[16];
         Matrix.multiplyMM(mvpMatrix, 0, matrix, 0, obj.getModelMatrix(), 0);
-        glUniformMatrix4fv(uMatrixLocation, 1, false, mvpMatrix, 0);
+        glUniformMatrix4fv(uMatrixHandle, 1, false, mvpMatrix, 0);
         // 设置颜色
-        glUniform4f(uColorLocation, r, g, b, a);
+        glUniform4f(uColorHandle, r, g, b, a);
         // 设置顶点数据
-        glVertexAttribPointer(aPositionLocation, FLOATS_PER_VERTEX, GL_FLOAT, false, 0, obj.getVertexBuffer());
-        glEnableVertexAttribArray(aPositionLocation);
+        glVertexAttribPointer(aPositionHandle, FLOATS_PER_VERTEX, GL_FLOAT, false, 0, obj.getVertexBuffer());
+        glEnableVertexAttribArray(aPositionHandle);
     }
 }

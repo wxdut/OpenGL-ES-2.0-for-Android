@@ -9,15 +9,14 @@ import java.nio.ShortBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import wxplus.opengles2forandroid.obj.base.Circle;
-import wxplus.opengles2forandroid.obj.base.Cylinder;
-import wxplus.opengles2forandroid.obj.base.Square;
+import wxplus.opengles2forandroid.obj.geometry.Circle;
+import wxplus.opengles2forandroid.obj.geometry.Cylinder;
+import wxplus.opengles2forandroid.obj.geometry.Square;
 import wxplus.opengles2forandroid.utils.GlobalConfig;
 
 import static android.opengl.GLES20.GL_TRIANGLES;
 import static android.opengl.GLES20.GL_TRIANGLE_FAN;
 import static android.opengl.GLES20.GL_TRIANGLE_STRIP;
-import static android.opengl.GLES20.GL_UNSIGNED_BYTE;
 import static android.opengl.GLES20.GL_UNSIGNED_SHORT;
 import static android.opengl.GLES20.glDrawArrays;
 import static android.opengl.GLES20.glDrawElements;

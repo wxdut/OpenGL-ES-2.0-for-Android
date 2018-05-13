@@ -24,17 +24,18 @@ import static android.opengl.GLES20.glCreateProgram;
 import static android.opengl.GLES20.glCreateShader;
 import static android.opengl.GLES20.glDeleteProgram;
 import static android.opengl.GLES20.glDeleteShader;
+import static android.opengl.GLES20.glGetAttribLocation;
 import static android.opengl.GLES20.glGetProgramInfoLog;
 import static android.opengl.GLES20.glGetProgramiv;
 import static android.opengl.GLES20.glGetShaderInfoLog;
 import static android.opengl.GLES20.glGetShaderiv;
+import static android.opengl.GLES20.glGetUniformLocation;
 import static android.opengl.GLES20.glLinkProgram;
 import static android.opengl.GLES20.glShaderSource;
-import static android.opengl.GLES20.glUseProgram;
 import static android.opengl.GLES20.glValidateProgram;
 
-public abstract class ShaderProgram {
-    public static final String TAG = ShaderProgram.class.getSimpleName();
+public abstract class BaseShaderProgram {
+    public static final String TAG = BaseShaderProgram.class.getSimpleName();
 
     // Uniform constants
     protected static final String U_MATRIX = "u_Matrix";
@@ -46,15 +47,23 @@ public abstract class ShaderProgram {
     protected static final String A_COLOR = "a_Color";
     protected static final String A_TEXTURE_COORDINATES = "a_TextureCoordinates";
 
+    protected final int uMatrixHandle;
+    protected final int uTextureUnitHandle;
+    protected final int aPositionHandle;
+
     // Shader program
     public final int program;
 
-    protected ShaderProgram(Context context, int vertexShaderResourceId,
-                            int fragmentShaderResourceId) {
+    protected BaseShaderProgram(Context context, int vertexShaderResourceId,
+                                int fragmentShaderResourceId) {
         // Compile the shaders and link the program.
         program = buildProgram(
                 TextureUtils.readShaderCodeFromResource(context, vertexShaderResourceId),
                 TextureUtils.readShaderCodeFromResource(context, fragmentShaderResourceId));
+
+        uMatrixHandle = glGetUniformLocation(program, U_MATRIX);
+        uTextureUnitHandle = glGetUniformLocation(program, U_TEXTURE_UNIT);
+        aPositionHandle = glGetAttribLocation(program, A_POSITION);
 
     }
 

@@ -2,16 +2,12 @@ package wxplus.opengles2forandroid;
 
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.widget.CheckBox;
-import android.widget.SeekBar;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import wxplus.opengles2forandroid.obj.Cube;
-import wxplus.opengles2forandroid.programs.CubeShaderProgram;
+import wxplus.opengles2forandroid.programs.CubeBaseShaderProgram;
 import wxplus.opengles2forandroid.utils.ProjectionHelper;
 
 import static android.opengl.GLES20.GL_COLOR_BUFFER_BIT;
@@ -29,7 +25,7 @@ public class OpenGL_04_Cube extends BaseActivity {
         return R.layout.activity_04_cube;
     }
 
-    protected CubeShaderProgram mCubeShaderProgram;
+    protected CubeBaseShaderProgram mCubeShaderProgram;
     protected ProjectionHelper mProjectionHelper;
     protected Cube mCube;
     protected float[][] mCubePositionArray = new float[][]{
@@ -49,7 +45,7 @@ public class OpenGL_04_Cube extends BaseActivity {
         return new GLSurfaceView.Renderer() {
             @Override
             public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-                mCubeShaderProgram = new CubeShaderProgram(mActivity, new int[]{
+                mCubeShaderProgram = new CubeBaseShaderProgram(mActivity, new int[]{
                         R.drawable.cube_first, R.drawable.cube_second, R.drawable.cube_third,
                         R.drawable.cube_fourth, R.drawable.cube_fifth, R.drawable.cube_sixth
                 });

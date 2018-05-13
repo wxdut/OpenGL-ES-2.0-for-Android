@@ -1,6 +1,8 @@
-package wxplus.opengles2forandroid.obj.base;
+package wxplus.opengles2forandroid.obj;
 
-import wxplus.opengles2forandroid.obj.Object;
+import wxplus.opengles2forandroid.obj.geometry.Circle;
+import wxplus.opengles2forandroid.obj.geometry.Cylinder;
+import wxplus.opengles2forandroid.obj.geometry.Point;
 
 /**
  * @author WangXiaoPlus

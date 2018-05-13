@@ -23,11 +23,11 @@ import static android.opengl.GLES20.glUseProgram;
 import static android.opengl.GLES20.glVertexAttribPointer;
 import static wxplus.opengles2forandroid.utils.Constants.FLOATS_PER_VERTEX;
 
-public class ColorBaseShaderProgram extends BaseShaderProgram {
+public class ColorShaderProgram extends BaseShaderProgram {
 
     private final int uColorHandle;
 
-    public ColorBaseShaderProgram(Context context) {
+    public ColorShaderProgram(Context context) {
         super(context, R.raw.color_vertex_shader,
                 R.raw.color_fragment_shader);
 

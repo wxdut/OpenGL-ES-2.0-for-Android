@@ -9,8 +9,8 @@ import javax.microedition.khronos.opengles.GL10;
 import wxplus.opengles2forandroid.obj.Puck;
 import wxplus.opengles2forandroid.obj.Table;
 import wxplus.opengles2forandroid.obj.Mallet;
-import wxplus.opengles2forandroid.programs.ColorBaseShaderProgram;
-import wxplus.opengles2forandroid.programs.TextureBaseShaderProgram;
+import wxplus.opengles2forandroid.programs.ColorShaderProgram;
+import wxplus.opengles2forandroid.programs.TextureShaderProgram;
 
 import static android.opengl.GLES20.GL_COLOR_BUFFER_BIT;
 import static android.opengl.GLES20.glClear;
@@ -35,8 +35,8 @@ public class OpenGL_03_Hockey extends BaseActivity {
     protected float[] mProjectionMatrix = new float[16];
     protected float[] mProjectionViewMatrix = new float[16];
 
-    protected TextureBaseShaderProgram mTextureProgram;
-    protected ColorBaseShaderProgram mColorProgram;
+    protected TextureShaderProgram mTextureProgram;
+    protected ColorShaderProgram mColorProgram;
 
     protected Table mTable;
     protected Puck mPuck;
@@ -57,8 +57,8 @@ public class OpenGL_03_Hockey extends BaseActivity {
 
         @Override
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-            mTextureProgram = new TextureBaseShaderProgram(mActivity, R.drawable.air_hockey_surface);
-            mColorProgram = new ColorBaseShaderProgram(mActivity);
+            mTextureProgram = new TextureShaderProgram(mActivity, R.drawable.air_hockey_surface);
+            mColorProgram = new ColorShaderProgram(mActivity);
         }
 
         @Override

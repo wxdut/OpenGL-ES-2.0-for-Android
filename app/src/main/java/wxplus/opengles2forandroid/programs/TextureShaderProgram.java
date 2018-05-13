@@ -30,7 +30,7 @@ import static android.opengl.GLES20.glVertexAttribPointer;
 import static wxplus.opengles2forandroid.utils.Constants.FLOATS_PER_TEXTURE_VERTEX;
 import static wxplus.opengles2forandroid.utils.Constants.FLOATS_PER_VERTEX;
 
-public class TextureBaseShaderProgram extends BaseShaderProgram {
+public class TextureShaderProgram extends BaseShaderProgram {
 
     public final int textureUnit;
 
@@ -42,7 +42,7 @@ public class TextureBaseShaderProgram extends BaseShaderProgram {
     protected final int aPositionHandle;
     protected final int aTextureCoordinatesHandle;
 
-    public TextureBaseShaderProgram(Context context, int resId) {
+    public TextureShaderProgram(Context context, int resId) {
         super(context, R.raw.texture_vertex_shader,
             R.raw.texture_fragment_shader);
 

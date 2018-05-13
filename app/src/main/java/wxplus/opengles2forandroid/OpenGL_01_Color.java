@@ -7,7 +7,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import wxplus.opengles2forandroid.obj.Photo;
-import wxplus.opengles2forandroid.programs.ColorBaseShaderProgram;
+import wxplus.opengles2forandroid.programs.ColorShaderProgram;
 
 import static android.opengl.GLES20.GL_COLOR_BUFFER_BIT;
 import static android.opengl.GLES20.glClear;
@@ -25,7 +25,7 @@ public class OpenGL_01_Color extends BaseActivity {
 
     protected float[] mProjectionMatrix = new float[16];
 
-    protected ColorBaseShaderProgram mColorShaderProgram;
+    protected ColorShaderProgram mColorShaderProgram;
     protected Photo mColorPhoto;
 
     @Override
@@ -42,7 +42,7 @@ public class OpenGL_01_Color extends BaseActivity {
 
         @Override
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-            mColorShaderProgram = new ColorBaseShaderProgram(mActivity);
+            mColorShaderProgram = new ColorShaderProgram(mActivity);
             mColorPhoto = new Photo(1, 1, false);
         }
 

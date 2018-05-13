@@ -23,11 +23,11 @@ import static wxplus.opengles2forandroid.utils.Constants.FLOATS_PER_VERTEX;
  * @author WangXiaoPlus
  * @date 2018/5/3
  */
-public class CubeBaseShaderProgram extends BaseShaderProgram {
+public class CubeShaderProgram extends BaseShaderProgram {
 
     public final int textureUnit;
 
-    public CubeBaseShaderProgram(Context context, int[] cubeImgList) {
+    public CubeShaderProgram(Context context, int[] cubeImgList) {
         super(context, R.raw.cube_vertex_shader, R.raw.cube_fragment_shader);
 
         textureUnit = TextureUtils.loadCubeMap(context, cubeImgList);

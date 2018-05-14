@@ -40,16 +40,26 @@ public abstract class BaseShaderProgram {
     // Uniform constants
     protected static final String U_MATRIX = "u_Matrix";
     protected static final String U_COLOR = "u_Color";
+    protected static final String U_LIGHT_COLOR = "u_LightColor";
+    protected static final String U_LIGHT_POSITION = "u_LightPosition";
     protected static final String U_TEXTURE_UNIT = "u_TextureUnit";
+    protected static final String U_VIEW_POSITION = "u_ViewPosition";
 
     // Attribute constants
     protected static final String A_POSITION = "a_Position";
     protected static final String A_COLOR = "a_Color";
     protected static final String A_TEXTURE_COORDINATES = "a_TextureCoordinates";
+    protected static final String A_NORMAL = "a_Normal";
+
 
     protected final int uMatrixHandle;
     protected final int uTextureUnitHandle;
+    protected final int uLightColorHandle;
+    protected final int uLightPositionHandle;
+    protected final int uViewPositionHandle;
+
     protected final int aPositionHandle;
+    protected final int aNormalHandle;
 
     // Shader program
     public final int program;
@@ -63,8 +73,12 @@ public abstract class BaseShaderProgram {
 
         uMatrixHandle = glGetUniformLocation(program, U_MATRIX);
         uTextureUnitHandle = glGetUniformLocation(program, U_TEXTURE_UNIT);
-        aPositionHandle = glGetAttribLocation(program, A_POSITION);
+        uLightColorHandle = glGetUniformLocation(program, U_LIGHT_COLOR);
+        uLightPositionHandle = glGetUniformLocation(program, U_LIGHT_POSITION);
+        uViewPositionHandle = glGetUniformLocation(program, U_VIEW_POSITION);
 
+        aPositionHandle = glGetAttribLocation(program, A_POSITION);
+        aNormalHandle = glGetUniformLocation(program, A_NORMAL);
     }
 
     /**
@@ -104,7 +118,7 @@ public abstract class BaseShaderProgram {
         glGetShaderiv(shaderObjectId, GL_COMPILE_STATUS,
                 compileStatus, 0);
 
-        GLog.d(TAG, "Results of compiling source:" + "\n" + shaderCode + "\n:" + glGetShaderInfoLog(shaderObjectId));
+//        GLog.d(TAG, "Results of compiling source:" + "\n" + shaderCode + "\n:" + glGetShaderInfoLog(shaderObjectId));
 
         // Verify the compile status.
         if (compileStatus[0] == 0) {

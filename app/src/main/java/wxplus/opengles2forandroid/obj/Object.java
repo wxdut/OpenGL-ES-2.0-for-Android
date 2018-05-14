@@ -78,6 +78,30 @@ public abstract class Object {
             7, 2, 3
     };
 
+    protected FloatBuffer mNormalBuffer;
+    protected float[] mNormalData;
+    protected int offsetNormalData = 0;
+    protected final float[] DEFAULT_CUBE_NORMAL_DATA = new float[] {
+            // Front
+            0, 0, 1,    0, 0, 1,    0, 0, 1,
+            0, 0, 1,    0, 0, 1,    0, 0, 1,
+            // Back
+            0, 0, -1,   0, 0, -1,   0, 0, -1,
+            0, 0, -1,   0, 0, -1,   0, 0, -1,
+            // Left
+            -1, 0, 0,   -1, 0, 0,   -1, 0, 0,
+            -1, 0, 0,   -1, 0, 0,   -1, 0, 0,
+            // Right
+            1, 0, 0,    1, 0, 0,    1, 0, 0,
+            1, 0, 0,    1, 0, 0,    1, 0, 0,
+            // Top
+            0, 1, 0,    0, 1, 0,    0, 1, 0,
+            0, 1, 0,    0, 1, 0,    0, 1, 0,
+            // Bottom
+            0, -1, 0,   0, -1, 0,   0, -1, 0,
+            0, -1, 0,   0, -1, 0,   0, -1, 0
+    };
+
     protected FloatBuffer mTextureBuffer;
     protected float[] mTextureData;
     protected int offsetTextureData = 0;
@@ -109,6 +133,7 @@ public abstract class Object {
             mVertexData[i] /= Math.abs(mVertexData[i]);
             mVertexData[i] *= sideWidth;
         }
+        mNormalData = DEFAULT_CUBE_NORMAL_DATA;
         // 6 indices per cube side
         mIndexData = DEFAULT_CUBE_INDEX_DATA;
         drawTaskList.add(new DrawTask() {
@@ -288,6 +313,18 @@ public abstract class Object {
         }
         mIndexBuffer.position(0);
         return mIndexBuffer;
+    }
+
+    public FloatBuffer getNormalBuffer() {
+        if (mNormalBuffer == null) {
+            mNormalBuffer = ByteBuffer
+                    .allocateDirect(mNormalData.length * BYTES_PER_FLOAT)
+                    .order(ByteOrder.nativeOrder())
+                    .asFloatBuffer()
+                    .put(mNormalData);
+        }
+        mNormalBuffer.position(0);
+        return mNormalBuffer;
     }
 
     public void draw() {

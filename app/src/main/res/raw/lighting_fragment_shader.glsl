@@ -14,7 +14,7 @@ void main()
     vec3 fragColor = gl_FragColor.rgb;
 
     // Ambient
-    float ambientStrength = 0.1;
+    float ambientStrength = 0.2;
     vec3 ambient = ambientStrength * u_LightColor;
 
     // Diffuse
@@ -27,11 +27,12 @@ void main()
     float specularStrength = 0.5;
     vec3 viewDirection = normalize(v_Position - u_ViewPosition);
     vec3 reflectDirection = reflect(lightDirection, v_Normal);
-    float specularFactor = pow(max(dot(-viewDirection, reflectDirection), 0.0f), 32f);
-//    vec3 specular = specularStrength * specularFactor * u_LightColor;
-//
-//    vec3 result = max(ambient + diffuse + specular, 1.0) * fragColor;
+    float specularFactor = pow(max(dot(-viewDirection, reflectDirection), 0.0), 32.0);
+    vec3 specular = specularStrength * specularFactor * u_LightColor;
 
-//    gl_FragColor = vec4(result, gl_FragColor.a);
+    vec3 result = (0.0 + ambient) * fragColor;
+//    vec3 result = min(max(ambient + diffuse + specular, 0.0), 1.0) * fragColor;
+
+    gl_FragColor = vec4(result, gl_FragColor.a);
 
 }

@@ -45,7 +45,7 @@ public class LightingShaderProgram extends BaseShaderProgram {
         glUniform1i(uTextureUnitHandle, textureUnit);
 
         glUniform3fv(uLightColorHandle, 1, new float[]{1, 1, 1}, 0);
-        glUniform3fv(uLightPositionHandle, 1, new float[]{1, 1, 1}, 0);
+        glUniform3fv(uLightPositionHandle, 1, new float[]{2, 4, -2}, 0);
         glUniform3fv(uViewPositionHandle, 1, new float[]{0, 0, 0}, 0);
 
         glVertexAttribPointer(aPositionHandle, FLOATS_PER_VERTEX, GL_FLOAT, false, 0, obj.getVertexBuffer());

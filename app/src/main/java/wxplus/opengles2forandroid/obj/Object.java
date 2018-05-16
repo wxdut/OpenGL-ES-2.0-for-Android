@@ -45,61 +45,140 @@ public abstract class Object {
     protected float[] mVertexData;
     protected int offsetVertexData = 0;
     protected final float[] DEFAULT_CUBE_VERTEX_DATA = new float[]{
-            -1, 1, 1,     // (0) Top-left near
-            1, 1, 1,     // (1) Top-right near
-            -1, -1, 1,     // (2) Bottom-left near
-            1, -1, 1,     // (3) Bottom-right near
-            -1, 1, -1,     // (4) Top-left far
-            1, 1, -1,     // (5) Top-right far
-            -1, -1, -1,     // (6) Bottom-left far
-            1, -1, -1      // (7) Bottom-right far
+//            // Front
+//            1, 1, 1,    1, -1, 1,   -1, 1, 1,
+//            -1, 1, 1,   1, -1, 1,   -1, -1, 1,
+//            // Back
+//            -1, 1, -1,  -1, -1, -1, 1, 1, -1,
+//            1, 1, -1,   -1, -1, -1, 1, -1, -1,
+//            // Left
+//            -1, 1, 1,   -1, -1, 1,  -1, 1, -1,
+//            -1, 1, -1,  -1, -1, 1,  -1, -1, -1,
+//            // Right
+//            1, 1, -1,   1, -1, -1,  -1, 1, 1,
+//            1, 1, 1,    1, -1, -1,  1, -1, 1,
+//            // Top
+//            1, 1, -1,   1, 1, 1,    -1, 1, -1,
+//            -1, 1, -1,  1, 1, 1,    -1, 1, 1,
+//            // Bottom
+//            -1, -1, -1, -1, -1, 1,  1, -1, -1,
+//            1, -1, -1,  -1, -1, 1,  1, -1, 1
+//            -1, 1, 1,     // (0) Top-left near
+//            1, 1, 1,     // (1) Top-right near
+//            -1, -1, 1,     // (2) Bottom-left near
+//            1, -1, 1,     // (3) Bottom-right near
+//            -1, 1, -1,     // (4) Top-left far
+//            1, 1, -1,     // (5) Top-right far
+//            -1, -1, -1,     // (6) Bottom-left far
+//            1, -1, -1      // (7) Bottom-right far
+            -0.5f, -0.5f, -0.5f,
+            0.5f, -0.5f, -0.5f,
+            0.5f,  0.5f, -0.5f,
+            0.5f,  0.5f, -0.5f,
+            -0.5f,  0.5f, -0.5f,
+            -0.5f, -0.5f, -0.5f,
+
+            -0.5f, -0.5f,  0.5f,
+            0.5f, -0.5f,  0.5f,
+            0.5f,  0.5f,  0.5f,
+            0.5f,  0.5f,  0.5f,
+            -0.5f,  0.5f,  0.5f,
+            -0.5f, -0.5f,  0.5f,
+
+            -0.5f,  0.5f,  0.5f,
+            -0.5f,  0.5f, -0.5f,
+            -0.5f, -0.5f, -0.5f,
+            -0.5f, -0.5f, -0.5f,
+            -0.5f, -0.5f,  0.5f,
+            -0.5f,  0.5f,  0.5f,
+
+            0.5f,  0.5f,  0.5f,
+            0.5f,  0.5f, -0.5f,
+            0.5f, -0.5f, -0.5f,
+            0.5f, -0.5f, -0.5f,
+            0.5f, -0.5f,  0.5f,
+            0.5f,  0.5f,  0.5f,
+
+            -0.5f, -0.5f, -0.5f,
+            0.5f, -0.5f, -0.5f,
+            0.5f, -0.5f,  0.5f,
+            0.5f, -0.5f,  0.5f,
+            -0.5f, -0.5f,  0.5f,
+            -0.5f, -0.5f, -0.5f,
+
+            -0.5f,  0.5f, -0.5f,
+            0.5f,  0.5f, -0.5f,
+            0.5f,  0.5f,  0.5f,
+            0.5f,  0.5f,  0.5f,
+            -0.5f,  0.5f,  0.5f,
+            -0.5f,  0.5f, -0.5f,
     };
 
-    protected ShortBuffer mIndexBuffer;
-    protected short[] mIndexData;
-    public static final short[] DEFAULT_CUBE_INDEX_DATA = new short[]{
-            // Front
-            1, 3, 0,
-            0, 3, 2,
-            // Back
-            4, 6, 5,
-            5, 6, 7,
-            // Left
-            0, 2, 4,
-            4, 2, 6,
-            // Right
-            5, 7, 1,
-            1, 7, 3,
-            // Top
-            5, 1, 4,
-            4, 1, 0,
-            // Bottom
-            6, 2, 7,
-            7, 2, 3
-    };
+//    protected ShortBuffer mIndexBuffer;
+//    protected short[] mIndexData;
+//    public static final short[] DEFAULT_CUBE_INDEX_DATA = new short[]{
+//            // Front
+//            1, 3, 0,
+//            0, 3, 2,
+//            // Back
+//            4, 6, 5,
+//            5, 6, 7,
+//            // Left
+//            0, 2, 4,
+//            4, 2, 6,
+//            // Right
+//            5, 7, 1,
+//            1, 7, 3,
+//            // Top
+//            5, 1, 4,
+//            4, 1, 0,
+//            // Bottom
+//            6, 2, 7,
+//            7, 2, 3
+//    };
 
     protected FloatBuffer mNormalBuffer;
     protected float[] mNormalData;
     protected int offsetNormalData = 0;
     protected final float[] DEFAULT_CUBE_NORMAL_DATA = new float[] {
-            // Front
-            0, 0, 1,    0, 0, 1,    0, 0, 1,
-            0, 0, 1,    0, 0, 1,    0, 0, 1,
-            // Back
-            0, 0, -1,   0, 0, -1,   0, 0, -1,
-            0, 0, -1,   0, 0, -1,   0, 0, -1,
-            // Left
-            -1, 0, 0,   -1, 0, 0,   -1, 0, 0,
-            -1, 0, 0,   -1, 0, 0,   -1, 0, 0,
-            // Right
-            1, 0, 0,    1, 0, 0,    1, 0, 0,
-            1, 0, 0,    1, 0, 0,    1, 0, 0,
-            // Top
-            0, 1, 0,    0, 1, 0,    0, 1, 0,
-            0, 1, 0,    0, 1, 0,    0, 1, 0,
-            // Bottom
-            0, -1, 0,   0, -1, 0,   0, -1, 0,
-            0, -1, 0,   0, -1, 0,   0, -1, 0
+//            // Front
+//            0, 0, 1,    0, 0, 1,    0, 0, 1,
+//            0, 0, 1,    0, 0, 1,    0, 0, 1,
+//            // Back
+//            0, 0, -1,   0, 0, -1,   0, 0, -1,
+//            0, 0, -1,   0, 0, -1,   0, 0, -1,
+//            // Left
+//            -1, 0, 0,   -1, 0, 0,   -1, 0, 0,
+//            -1, 0, 0,   -1, 0, 0,   -1, 0, 0,
+//            // Right
+//            1, 0, 0,    1, 0, 0,    1, 0, 0,
+//            1, 0, 0,    1, 0, 0,    1, 0, 0,
+//            // Top
+//            0, 1, 0,    0, 1, 0,    0, 1, 0,
+//            0, 1, 0,    0, 1, 0,    0, 1, 0,
+//            // Bottom
+//            0, -1, 0,   0, -1, 0,   0, -1, 0,
+//            0, -1, 0,   0, -1, 0,   0, -1, 0
+            0.0f,  0.0f, -1.0f,
+            0.0f,  0.0f, -1.0f,
+            0.0f,  0.0f, -1.0f,
+            0.0f,  0.0f, -1.0f,
+            0.0f,  0.0f, -1.0f,
+            0.0f,  0.0f, -1.0f,
+            0.0f,  0.0f,  1.0f,
+            0.0f,  0.0f,  1.0f,
+            0.0f,  0.0f,  1.0f,
+            0.0f,  0.0f,  1.0f,
+            0.0f,  0.0f,  1.0f,
+            0.0f,  0.0f,  1.0f,
+            -1.0f,  0.0f,  0.0f,
+            -1.0f,  0.0f,  0.0f,
+            -1.0f,  0.0f,  0.0f,
+            -1.0f,  0.0f,  0.0f,
+            -1.0f,  0.0f,  0.0f,
+            -1.0f,  0.0f,  0.0f,
+            1.0f,  0.0f,  0.0f,1.0f,  0.0f,  0.0f,1.0f,  0.0f,  0.0f,1.0f,  0.0f,  0.0f, 1.0f,  0.0f,  0.0f,1.0f,  0.0f,  0.0f, 0.0f, -1.0f,  0.0f,0.0f, -1.0f,  0.0f, 0.0f, -1.0f,  0.0f, 0.0f, -1.0f,  0.0f,
+            0.0f, -1.0f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,  1.0f,  0.0f, 0.0f,  1.0f,  0.0f, 0.0f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f
     };
 
     protected FloatBuffer mTextureBuffer;
@@ -135,11 +214,12 @@ public abstract class Object {
         }
         mNormalData = DEFAULT_CUBE_NORMAL_DATA;
         // 6 indices per cube side
-        mIndexData = DEFAULT_CUBE_INDEX_DATA;
+//        mIndexData = DEFAULT_CUBE_INDEX_DATA;
         drawTaskList.add(new DrawTask() {
             @Override
             public void draw() {
-                glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_SHORT, getIndexBuffer());
+                glDrawArrays(GL_TRIANGLES, 0, mVertexData.length / FLOATS_PER_VERTEX);
+//                glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_SHORT, getIndexBuffer());
             }
         });
         return this;
@@ -303,17 +383,17 @@ public abstract class Object {
         return mTextureBuffer;
     }
 
-    public ShortBuffer getIndexBuffer() {
-        if (mIndexBuffer == null) {
-            mIndexBuffer = ByteBuffer
-                    .allocateDirect(mIndexData.length * BYTES_PER_SHORT)
-                    .order(ByteOrder.nativeOrder())
-                    .asShortBuffer()
-                    .put(mIndexData);
-        }
-        mIndexBuffer.position(0);
-        return mIndexBuffer;
-    }
+//    public ShortBuffer getIndexBuffer() {
+//        if (mIndexBuffer == null) {
+//            mIndexBuffer = ByteBuffer
+//                    .allocateDirect(mIndexData.length * BYTES_PER_SHORT)
+//                    .order(ByteOrder.nativeOrder())
+//                    .asShortBuffer()
+//                    .put(mIndexData);
+//        }
+//        mIndexBuffer.position(0);
+//        return mIndexBuffer;
+//    }
 
     public FloatBuffer getNormalBuffer() {
         if (mNormalBuffer == null) {

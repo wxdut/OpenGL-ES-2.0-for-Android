@@ -39,6 +39,9 @@ public abstract class BaseShaderProgram {
 
     // Uniform constants
     protected static final String U_MATRIX = "u_Matrix";
+    protected static final String U_PROJECTION_MATRIX = "u_ProjectionMatrix";
+    protected static final String U_VIEW_MATRIX = "u_ViewMatrix";
+    protected static final String U_MODEL_MATRIX = "u_ModelMatrix";
     protected static final String U_COLOR = "u_Color";
     protected static final String U_LIGHT_COLOR = "u_LightColor";
     protected static final String U_LIGHT_POSITION = "u_LightPosition";
@@ -53,6 +56,9 @@ public abstract class BaseShaderProgram {
 
 
     protected final int uMatrixHandle;
+    protected final int uProjectionMatrixHandle;
+    protected final int uViewMatrixHandle;
+    protected final int uModelMatrixHandle;
     protected final int uTextureUnitHandle;
     protected final int uLightColorHandle;
     protected final int uLightPositionHandle;
@@ -72,6 +78,10 @@ public abstract class BaseShaderProgram {
                 TextureUtils.readShaderCodeFromResource(context, fragmentShaderResourceId));
 
         uMatrixHandle = glGetUniformLocation(program, U_MATRIX);
+        uProjectionMatrixHandle = glGetUniformLocation(program, U_PROJECTION_MATRIX);
+        uViewMatrixHandle = glGetUniformLocation(program, U_VIEW_MATRIX);
+        uModelMatrixHandle = glGetUniformLocation(program, U_MODEL_MATRIX);
+
         uTextureUnitHandle = glGetUniformLocation(program, U_TEXTURE_UNIT);
         uLightColorHandle = glGetUniformLocation(program, U_LIGHT_COLOR);
         uLightPositionHandle = glGetUniformLocation(program, U_LIGHT_POSITION);

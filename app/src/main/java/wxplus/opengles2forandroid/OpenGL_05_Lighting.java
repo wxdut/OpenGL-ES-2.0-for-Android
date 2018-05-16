@@ -9,7 +9,6 @@ import javax.microedition.khronos.opengles.GL10;
 import wxplus.opengles2forandroid.obj.Cube;
 import wxplus.opengles2forandroid.obj.Photo;
 import wxplus.opengles2forandroid.programs.ColorShaderProgram;
-import wxplus.opengles2forandroid.programs.CubeShaderProgram;
 import wxplus.opengles2forandroid.programs.LightingShaderProgram;
 import wxplus.opengles2forandroid.utils.ProjectionHelper;
 
@@ -74,8 +73,9 @@ public class OpenGL_05_Lighting extends BaseActivity {
                 onDrawTime++;
                 // 光源
                 mLightPhoto.resetModelMatrix();
-                mLightPhoto.translate(2, 4, -4);
-                mLightProgram.bindData(mProjectionHelper.generateVpMatrix(), mLightPhoto, 1, 1, 1, 1);
+                mLightPhoto.translate(2, 4, -2);
+//                mLightProgram.bindData(mProjectionHelper.generateVpMatrix(), mLightPhoto, 1, 1, 1, 1);
+                mLightProgram.bindData(mProjectionHelper, mLightPhoto, 1, 1, 1, 1);
                 mLightPhoto.draw();
             }
 

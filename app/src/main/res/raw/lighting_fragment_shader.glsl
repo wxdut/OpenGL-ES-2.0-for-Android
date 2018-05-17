@@ -5,13 +5,12 @@ uniform vec3 u_LightColor;
 uniform vec3 u_LightPosition;
 uniform vec3 u_ViewPosition;
 
+varying vec3 v_Position;
 varying vec3 v_Normal;
-varying vec3 v_FragmentPosition;
-varying vec3 v_TexturePosition;
 
 void main()
 {
-	gl_FragColor = textureCube(u_TextureUnit, v_FragmentPosition);
+	gl_FragColor = textureCube(u_TextureUnit, v_Position);
     vec3 fragColor = gl_FragColor.rgb;
 
     // Ambient
@@ -20,13 +19,13 @@ void main()
 
     // Diffuse
     vec3 normal = normalize(v_Normal);
-    vec3 lightDirection = normalize(v_TexturePosition - u_LightPosition);
+    vec3 lightDirection = normalize(v_Position - u_LightPosition);
     float diffFactor = max(dot(normal, -lightDirection), 0.0);
     vec3 diffuse = diffFactor * u_LightColor;
 
     // Specular
     float specularStrength = 0.5;
-    vec3 viewDirection = normalize(v_TexturePosition - u_ViewPosition);
+    vec3 viewDirection = normalize(v_Position - u_ViewPosition);
     vec3 reflectDirection = reflect(lightDirection, v_Normal);
     float specularFactor = pow(max(dot(-viewDirection, reflectDirection), 0.0), 32.0);
     vec3 specular = specularStrength * specularFactor * u_LightColor;

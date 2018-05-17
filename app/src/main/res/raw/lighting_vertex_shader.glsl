@@ -8,12 +8,14 @@ attribute vec3 a_Position;
 attribute vec3 a_Normal;
 
 varying vec3 v_Normal;
-varying vec3 v_Position;
+varying vec3 v_FragmentPosition;
+varying vec3 v_TexturePosition;
 
 void main() {
 
     v_Normal = mat3(transpose(inverse(u_ModelMatrix))) * a_Normal;
-    v_Position = vec3(u_ModelMatrix * vec4(a_Position, 1.0));
+    v_FragmentPosition= a_Position;
+    v_TexturePosition = vec3(u_ModelMatrix * vec4(a_Position, 1.0));
     gl_Position = u_ProjectionMatrix * u_ViewMatrix * u_ModelMatrix * vec4(a_Position, 1.0);
 
 }

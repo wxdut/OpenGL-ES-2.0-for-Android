@@ -12,8 +12,12 @@ varying vec3 v_Position;
 
 void main() {
 
-    v_Normal = mat3(transpose(inverse(u_ModelMatrix))) * a_Normal;
-    v_Position = vec3(u_ModelMatrix * vec4(a_Position, 1.0));
+//    v_Normal = mat3(transpose(inverse(u_ModelMatrix))) * a_Normal;
+    v_Normal = mat3(u_ModelMatrix) * a_Normal;
+//    v_Position = vec3(u_ModelMatrix * vec4(a_Position, 1.0));
+    v_Position = a_Position;
     gl_Position = u_ProjectionMatrix * u_ViewMatrix * u_ModelMatrix * vec4(a_Position, 1.0);
 
 }
+
+

@@ -1,6 +1,7 @@
 package wxplus.opengles2forandroid.programs;
 
 import android.content.Context;
+import android.opengl.Matrix;
 
 import wxplus.opengles2forandroid.R;
 import wxplus.opengles2forandroid.obj.Object;
@@ -39,6 +40,10 @@ public class LightingShaderProgram extends BaseShaderProgram {
 
         projectionHelper.modelMatrix = obj.getModelMatrix();
         glUniformMatrix4fv(uMatrixHandle, 1, false, projectionHelper.generateMvpMatrix(), 0);
+
+        glUniformMatrix4fv(uProjectionMatrixHandle, 1, false, projectionHelper.projectionMatrix, 0);
+        glUniformMatrix4fv(uViewMatrixHandle, 1, false, projectionHelper.viewMatrix, 0);
+        glUniformMatrix4fv(uModelMatrixHandle, 1, false, projectionHelper.modelMatrix, 0);
 
         glActiveTexture(GL_TEXTURE0 + textureUnit);
         glBindTexture(GL_TEXTURE_CUBE_MAP, textureUnit);

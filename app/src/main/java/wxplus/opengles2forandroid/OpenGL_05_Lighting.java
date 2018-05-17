@@ -21,9 +21,6 @@ import static android.opengl.GLES20.glEnable;
 
 public class OpenGL_05_Lighting extends BaseActivity {
 
-    protected float mAmbientLightFactor = 0.2f; // 环境光
-    protected float[] mLightPosition; // 光源的位置
-
     protected ProjectionHelper mProjectionHelper;
 
     protected ColorShaderProgram mLightProgram;
@@ -70,17 +67,14 @@ public class OpenGL_05_Lighting extends BaseActivity {
                 mObjectProgram.bindData(mProjectionHelper, mObjectCube);
                 mObjectCube.draw();
                 modelRotateDegrees++;
-                onDrawTime++;
                 // 光源
                 mLightPhoto.resetModelMatrix();
-                mLightPhoto.translate(2, 4, -2);
-//                mLightProgram.bindData(mProjectionHelper.generateVpMatrix(), mLightPhoto, 1, 1, 1, 1);
-                mLightProgram.bindData(mProjectionHelper, mLightPhoto, 1, 1, 1, 1);
+                mLightPhoto.translate(2, 4, -4);
+                mLightProgram.bindData(mProjectionHelper.generateVpMatrix(), mLightPhoto, 1, 1, 1, 1);
                 mLightPhoto.draw();
             }
 
             int modelRotateDegrees = 0;
-            int onDrawTime = 0;
         };
     }
 }

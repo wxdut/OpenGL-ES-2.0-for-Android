@@ -38,14 +38,17 @@ public class LightingShaderProgram extends BaseShaderProgram {
         glUseProgram(program);
 
         projectionHelper.modelMatrix = obj.getModelMatrix();
-        glUniformMatrix4fv(uMatrixHandle, 1, false, projectionHelper.generateMvpMatrix(), 0);
+        glUniformMatrix4fv(uProjectionMatrixHandle, 1, false, projectionHelper.projectionMatrix, 0);
+        glUniformMatrix4fv(uViewMatrixHandle, 1, false, projectionHelper.viewMatrix, 0);
+        glUniformMatrix4fv(uModelMatrixHandle, 1, false, projectionHelper.modelMatrix, 0);
+        glUniformMatrix4fv(uNormalMatrixHandle, 1, false, projectionHelper.generateNormalMatrix(), 0);
 
         glActiveTexture(GL_TEXTURE0 + textureUnit);
         glBindTexture(GL_TEXTURE_CUBE_MAP, textureUnit);
         glUniform1i(uTextureUnitHandle, textureUnit);
 
         glUniform3fv(uLightColorHandle, 1, new float[]{1, 1, 1}, 0);
-        glUniform3fv(uLightPositionHandle, 1, new float[]{2, 4, -2}, 0);
+        glUniform3fv(uLightPositionHandle, 1, new float[]{2, 4, -4}, 0);
         glUniform3fv(uViewPositionHandle, 1, new float[]{0, 0, 0}, 0);
 
         glVertexAttribPointer(aPositionHandle, FLOATS_PER_VERTEX, GL_FLOAT, false, 0, obj.getVertexBuffer());

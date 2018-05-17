@@ -50,19 +50,4 @@ public class ColorShaderProgram extends BaseShaderProgram {
         glVertexAttribPointer(aPositionHandle, FLOATS_PER_VERTEX, GL_FLOAT, false, 0, obj.getVertexBuffer());
         glEnableVertexAttribArray(aPositionHandle);
     }
-
-    public void bindData(ProjectionHelper projectionHelper, Object obj, float r, float g, float b, float a) {
-        // 使用这个Program
-        glUseProgram(program);
-        // 矩阵变换
-        float[] mvpMatrix = new float[16];
-        glUniformMatrix4fv(uProjectionMatrixHandle, 1, false, projectionHelper.projectionMatrix, 0);
-        glUniformMatrix4fv(uViewMatrixHandle, 1, false, projectionHelper.viewMatrix, 0);
-        glUniformMatrix4fv(uModelMatrixHandle, 1, false, projectionHelper.modelMatrix, 0);
-        // 设置颜色
-        glUniform4f(uColorHandle, r, g, b, a);
-        // 设置顶点数据
-        glVertexAttribPointer(aPositionHandle, FLOATS_PER_VERTEX, GL_FLOAT, false, 0, obj.getVertexBuffer());
-        glEnableVertexAttribArray(aPositionHandle);
-    }
 }

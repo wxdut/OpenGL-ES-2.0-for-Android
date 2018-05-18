@@ -48,7 +48,7 @@ public class MainActivity extends BaseActivity {
                 layoutContent.addView(menuItemView);
             }
         }
-        startActivity(OpenGL_05_Lighting.class);
+        startActivity(OpenGL_06_Model.class);
     }
 
     @Override

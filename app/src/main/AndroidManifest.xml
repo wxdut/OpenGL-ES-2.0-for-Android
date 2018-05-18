@@ -21,6 +21,7 @@
         <activity android:name=".OpenGL_03_Hockey"/>
         <activity android:name=".OpenGL_04_Cube"/>
         <activity android:name=".OpenGL_05_Lighting"/>
+        <activity android:name=".OpenGL_06_Model"/>
     </application>
 
 </manifest>

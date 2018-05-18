@@ -5,7 +5,6 @@ import android.opengl.Matrix;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
-import java.nio.ShortBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +16,9 @@ import wxplus.opengles2forandroid.utils.GlobalConfig;
 import static android.opengl.GLES20.GL_TRIANGLES;
 import static android.opengl.GLES20.GL_TRIANGLE_FAN;
 import static android.opengl.GLES20.GL_TRIANGLE_STRIP;
-import static android.opengl.GLES20.GL_UNSIGNED_SHORT;
 import static android.opengl.GLES20.glDrawArrays;
 import static android.opengl.GLES20.glDrawElements;
 import static wxplus.opengles2forandroid.utils.Constants.BYTES_PER_FLOAT;
-import static wxplus.opengles2forandroid.utils.Constants.BYTES_PER_SHORT;
 import static wxplus.opengles2forandroid.utils.Constants.FLOATS_PER_TEXTURE_VERTEX;
 import static wxplus.opengles2forandroid.utils.Constants.FLOATS_PER_VERTEX;
 import static wxplus.opengles2forandroid.utils.Constants.VERTEX_COUNT_SQUARE;
@@ -44,163 +41,10 @@ public abstract class Object {
     protected FloatBuffer mVertexBuffer;
     protected float[] mVertexData;
     protected int offsetVertexData = 0;
-    protected final float[] DEFAULT_CUBE_VERTEX_DATA = new float[]{
-//            // Front
-//            1, 1, 1,    1, -1, 1,   -1, 1, 1,
-//            -1, 1, 1,   1, -1, 1,   -1, -1, 1,
-//            // Back
-//            -1, 1, -1,  -1, -1, -1, 1, 1, -1,
-//            1, 1, -1,   -1, -1, -1, 1, -1, -1,
-//            // Left
-//            -1, 1, 1,   -1, -1, 1,  -1, 1, -1,
-//            -1, 1, -1,  -1, -1, 1,  -1, -1, -1,
-//            // Right
-//            1, 1, -1,   1, -1, -1,  -1, 1, 1,
-//            1, 1, 1,    1, -1, -1,  1, -1, 1,
-//            // Top
-//            1, 1, -1,   1, 1, 1,    -1, 1, -1,
-//            -1, 1, -1,  1, 1, 1,    -1, 1, 1,
-//            // Bottom
-//            -1, -1, -1, -1, -1, 1,  1, -1, -1,
-//            1, -1, -1,  -1, -1, 1,  1, -1, 1
-//            -1, 1, 1,     // (0) Top-left near
-//            1, 1, 1,     // (1) Top-right near
-//            -1, -1, 1,     // (2) Bottom-left near
-//            1, -1, 1,     // (3) Bottom-right near
-//            -1, 1, -1,     // (4) Top-left far
-//            1, 1, -1,     // (5) Top-right far
-//            -1, -1, -1,     // (6) Bottom-left far
-//            1, -1, -1      // (7) Bottom-right far
-            -0.5f, -0.5f, -0.5f,
-            0.5f, -0.5f, -0.5f,
-            0.5f,  0.5f, -0.5f,
-            0.5f,  0.5f, -0.5f,
-            -0.5f,  0.5f, -0.5f,
-            -0.5f, -0.5f, -0.5f,
-
-            -0.5f, -0.5f,  0.5f,
-            0.5f, -0.5f,  0.5f,
-            0.5f,  0.5f,  0.5f,
-            0.5f,  0.5f,  0.5f,
-            -0.5f,  0.5f,  0.5f,
-            -0.5f, -0.5f,  0.5f,
-
-            -0.5f,  0.5f,  0.5f,
-            -0.5f,  0.5f, -0.5f,
-            -0.5f, -0.5f, -0.5f,
-            -0.5f, -0.5f, -0.5f,
-            -0.5f, -0.5f,  0.5f,
-            -0.5f,  0.5f,  0.5f,
-
-            0.5f,  0.5f,  0.5f,
-            0.5f,  0.5f, -0.5f,
-            0.5f, -0.5f, -0.5f,
-            0.5f, -0.5f, -0.5f,
-            0.5f, -0.5f,  0.5f,
-            0.5f,  0.5f,  0.5f,
-
-            -0.5f, -0.5f, -0.5f,
-            0.5f, -0.5f, -0.5f,
-            0.5f, -0.5f,  0.5f,
-            0.5f, -0.5f,  0.5f,
-            -0.5f, -0.5f,  0.5f,
-            -0.5f, -0.5f, -0.5f,
-
-            -0.5f,  0.5f, -0.5f,
-            0.5f,  0.5f, -0.5f,
-            0.5f,  0.5f,  0.5f,
-            0.5f,  0.5f,  0.5f,
-            -0.5f,  0.5f,  0.5f,
-            -0.5f,  0.5f, -0.5f,
-    };
-
-//    protected ShortBuffer mIndexBuffer;
-//    protected short[] mIndexData;
-//    public static final short[] DEFAULT_CUBE_INDEX_DATA = new short[]{
-//            // Front
-//            1, 3, 0,
-//            0, 3, 2,
-//            // Back
-//            4, 6, 5,
-//            5, 6, 7,
-//            // Left
-//            0, 2, 4,
-//            4, 2, 6,
-//            // Right
-//            5, 7, 1,
-//            1, 7, 3,
-//            // Top
-//            5, 1, 4,
-//            4, 1, 0,
-//            // Bottom
-//            6, 2, 7,
-//            7, 2, 3
-//    };
 
     protected FloatBuffer mNormalBuffer;
     protected float[] mNormalData;
     protected int offsetNormalData = 0;
-    protected final float[] DEFAULT_CUBE_NORMAL_DATA = new float[] {
-//            // Front
-//            0, 0, 1,    0, 0, 1,    0, 0, 1,
-//            0, 0, 1,    0, 0, 1,    0, 0, 1,
-//            // Back
-//            0, 0, -1,   0, 0, -1,   0, 0, -1,
-//            0, 0, -1,   0, 0, -1,   0, 0, -1,
-//            // Left
-//            -1, 0, 0,   -1, 0, 0,   -1, 0, 0,
-//            -1, 0, 0,   -1, 0, 0,   -1, 0, 0,
-//            // Right
-//            1, 0, 0,    1, 0, 0,    1, 0, 0,
-//            1, 0, 0,    1, 0, 0,    1, 0, 0,
-//            // Top
-//            0, 1, 0,    0, 1, 0,    0, 1, 0,
-//            0, 1, 0,    0, 1, 0,    0, 1, 0,
-//            // Bottom
-//            0, -1, 0,   0, -1, 0,   0, -1, 0,
-//            0, -1, 0,   0, -1, 0,   0, -1, 0
-            0.0f,  0.0f, -1.0f,
-            0.0f,  0.0f, -1.0f,
-            0.0f,  0.0f, -1.0f,
-            0.0f,  0.0f, -1.0f,
-            0.0f,  0.0f, -1.0f,
-            0.0f,  0.0f, -1.0f,
-
-            0.0f,  0.0f,  1.0f,
-            0.0f,  0.0f,  1.0f,
-            0.0f,  0.0f,  1.0f,
-            0.0f,  0.0f,  1.0f,
-            0.0f,  0.0f,  1.0f,
-            0.0f,  0.0f,  1.0f,
-
-            -1.0f,  0.0f,  0.0f,
-            -1.0f,  0.0f,  0.0f,
-            -1.0f,  0.0f,  0.0f,
-            -1.0f,  0.0f,  0.0f,
-            -1.0f,  0.0f,  0.0f,
-            -1.0f,  0.0f,  0.0f,
-
-            1.0f,  0.0f,  0.0f,
-            1.0f,  0.0f,  0.0f,
-            1.0f,  0.0f,  0.0f,
-            1.0f,  0.0f,  0.0f,
-            1.0f,  0.0f,  0.0f,
-            1.0f,  0.0f,  0.0f,
-
-            0.0f, -1.0f,  0.0f,
-            0.0f, -1.0f,  0.0f,
-            0.0f, -1.0f,  0.0f,
-            0.0f, -1.0f,  0.0f,
-            0.0f, -1.0f,  0.0f,
-            0.0f, -1.0f,  0.0f,
-
-            0.0f,  1.0f,  0.0f,
-            0.0f,  1.0f,  0.0f,
-            0.0f,  1.0f,  0.0f,
-            0.0f,  1.0f,  0.0f,
-            0.0f,  1.0f,  0.0f,
-            0.0f,  1.0f,  0.0f
-    };
 
     protected FloatBuffer mTextureBuffer;
     protected float[] mTextureData;
@@ -220,6 +64,7 @@ public abstract class Object {
             count = DEFAULT_VERTICES_COUNT;
         }
         mVertexData = new float[floatSizeOfVertices(count)];
+        mNormalData = new float[floatSizeOfVertices(count)];
         mTextureData = new float[floatSizeOfTextureVertices(count)];
         Matrix.setIdentityM(mModelMatrix, 0);
     }
@@ -228,12 +73,11 @@ public abstract class Object {
 
     public Object addCube(float sideWidth) {
         // Create a unit cube.
-        mVertexData = DEFAULT_CUBE_VERTEX_DATA;
+        initCubeVertexAndNormalData();
         for (int i = 0; i < mVertexData.length; i++) {
             mVertexData[i] /= Math.abs(mVertexData[i]);
             mVertexData[i] *= sideWidth;
         }
-        mNormalData = DEFAULT_CUBE_NORMAL_DATA;
         // 6 indices per cube side
 //        mIndexData = DEFAULT_CUBE_INDEX_DATA;
         drawTaskList.add(new DrawTask() {
@@ -244,6 +88,35 @@ public abstract class Object {
             }
         });
         return this;
+    }
+
+    public void initCubeVertexAndNormalData() {
+        if (mVertexData.length - offsetVertexData < 3 * 6 * 6) {
+            throw new ArrayIndexOutOfBoundsException(TAG + ", initCubeVertexAndNormalData, mVertexData is too small... len = " + mVertexData.length + ", offset = " + offsetVertexData);
+        }
+        if (mNormalData.length - offsetNormalData < 3 * 6 * 6) {
+            throw new ArrayIndexOutOfBoundsException(TAG + ", initCubeVertexAndNormalData, mNormalData is too small... len = " + mNormalData.length + ", offset = " + offsetNormalData);
+        }
+//        float[] cubeVertexData = new float[3 * 6 * 6]; // 一个顶点3个float，一个面6个顶点，一个立方体6个面
+//        float[] cubeNormalData = new float[3 * 6 * 6]; // 一个顶点法线3个float，一个面6个顶点，一个立方体6个面
+        final float[] cubeFaceCoorData = new float[]{-1, -1, 1, -1, -1, 1, 1, 1, -1, 1, 1, -1}; // 一个面的6个点的坐标
+        for (int i = 0; i < 6; i++) { // 遍历立方体的6个面
+            int axis = i / 2; // 区分是哪个坐标轴，0-x轴，1-y轴，2-z轴
+            int axisHalf = i % 2; // 区分axis轴的正负半轴，0-正半轴，1-负半轴
+            for (int j = 0; j < 6; j++) { // 遍历一个面的6个顶点
+                int cubeFaceCoorOffset = j * 2;
+                for (int k = 0; k < axis; k++) {
+                    mVertexData[offsetVertexData++] = cubeFaceCoorData[cubeFaceCoorOffset++];
+                    mNormalData[offsetNormalData++] = 0;
+                }
+                mVertexData[offsetVertexData++] = axisHalf == 0 ? 1 : -1;
+                mNormalData[offsetNormalData++] = axisHalf == 0 ? 1 : -1;
+                for (int k = axis + 1; k < 3; k++) {
+                    mVertexData[offsetVertexData++] = cubeFaceCoorData[cubeFaceCoorOffset++];
+                    mNormalData[offsetNormalData++] = 0;
+                }
+            }
+        }
     }
 
     public Object addSquare(Square square) {

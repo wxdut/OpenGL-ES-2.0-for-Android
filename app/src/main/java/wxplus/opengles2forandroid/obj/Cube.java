@@ -16,6 +16,6 @@ public class Cube extends Object {
 
     @Override
     public int verticesCount() {
-        return 0;
+        return 6 * 6;
     }
 }

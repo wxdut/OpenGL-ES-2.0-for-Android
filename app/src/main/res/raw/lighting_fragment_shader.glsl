@@ -31,7 +31,7 @@ void main()
     float specularFactor = pow(max(dot(-viewDirection, reflectDirection), 0.0), 32.0);
     vec3 specular = specularStrength * specularFactor * u_LightColor;
 
-    vec3 result = (diffuse + 0.0) * fragColor;
+    vec3 result = (ambient + diffuse + specular) * fragColor;
 //    vec3 result = min(max(ambient + diffuse + specular, 0.0), 1.0) * fragColor;
 
     gl_FragColor = vec4(result, gl_FragColor.a);

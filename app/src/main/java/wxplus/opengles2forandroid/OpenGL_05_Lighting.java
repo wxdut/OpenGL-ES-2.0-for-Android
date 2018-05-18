@@ -28,6 +28,8 @@ public class OpenGL_05_Lighting extends BaseActivity {
     protected Photo mLightPhoto;
     protected Cube mObjectCube;
 
+    protected float[] mLightPosition = new float[] {2, 4, -4};
+
     @Override
     public int layoutResId() {
         return R.layout.activity_05_lighting;
@@ -53,7 +55,7 @@ public class OpenGL_05_Lighting extends BaseActivity {
             public void onSurfaceChanged(GL10 gl, int width, int height) {
                 final int fov = 120;
                 float screenAspect = width * 1.0f / height;
-                Matrix.perspectiveM(mProjectionHelper.projectionMatrix, 0, fov, screenAspect, 1f, 20f);
+                Matrix.perspectiveM(mProjectionHelper.projectionMatrix, 0, fov, screenAspect, 1f, 10f);
             }
 
             @Override
@@ -63,13 +65,13 @@ public class OpenGL_05_Lighting extends BaseActivity {
                 glEnable(GL_DEPTH_TEST);
                 mObjectCube.resetModelMatrix();
                 mObjectCube.translate(0, 0, -4);
-                mObjectCube.rotate(modelRotateDegrees, 1, 1, 0);
-                mObjectProgram.bindData(mProjectionHelper, mObjectCube);
+                mObjectCube.rotate(modelRotateDegrees, mLightPosition[0], mLightPosition[1], mLightPosition[2]);
+                mObjectProgram.bindData(mProjectionHelper, mObjectCube, mLightPosition);
                 mObjectCube.draw();
                 modelRotateDegrees++;
                 // 光源
                 mLightPhoto.resetModelMatrix();
-                mLightPhoto.translate(2, 4, -4);
+                mLightPhoto.translate(mLightPosition[0], mLightPosition[1], mLightPosition[2]);
                 mLightProgram.bindData(mProjectionHelper.generateVpMatrix(), mLightPhoto, 1, 1, 1, 1);
                 mLightPhoto.draw();
             }

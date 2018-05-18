@@ -30,12 +30,4 @@ public class ProjectionHelper {
         return vpMatrix;
     }
 
-    public float[] generateNormalMatrix() {
-        float[] inverseMatrix = new float[PROJECTION_MATRIX_LENGTH];
-        Matrix.invertM(inverseMatrix, 0, modelMatrix, 0);
-        float[] transposeMatrix = new float[PROJECTION_MATRIX_LENGTH];
-        Matrix.transposeM(transposeMatrix, 0, inverseMatrix, 0);
-        return transposeMatrix;
-    }
-
 }

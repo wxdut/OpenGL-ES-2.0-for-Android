@@ -14,6 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import javax.microedition.khronos.egl.EGL10;
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.egl.EGLDisplay;
+
 import wxplus.opengles2forandroid.utils.GLog;
 
 /**
@@ -66,4 +70,17 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public abstract GLSurfaceView.Renderer createGlViewRenderer();
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mGlView.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mGlView.onResume();
+    }
+
 }

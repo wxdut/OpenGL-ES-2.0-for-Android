@@ -1,5 +1,6 @@
 package wxplus.opengles2forandroid;
 
+import android.content.res.AssetManager;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 
@@ -25,7 +26,7 @@ public class OpenGL_06_Model extends BaseActivity {
     @Override
     public void init() {
         mProjectionHelper = new ProjectionHelper();
-        nativeInit();
+        nativeInit(getAssets());
     }
 
     @Override
@@ -56,7 +57,7 @@ public class OpenGL_06_Model extends BaseActivity {
         };
     }
 
-    public native boolean nativeInit();
+    public native boolean nativeInit(AssetManager assetManager);
     public native void nativeOnSurfaceCreated(EGLConfig config);
     public native void nativeOnSurfaceChanged(int width, int height);
     public native void nativeOnDrawFrame();

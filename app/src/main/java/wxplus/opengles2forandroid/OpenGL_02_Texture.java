@@ -82,10 +82,8 @@ public class OpenGL_02_Texture extends BaseActivity {
     protected CheckBox mShowTopTextureView;
     protected CheckBox mRotateTopTextureView;
 
-
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void init() {
         mShowBottomTextureView = findViewById(R.id.cb1);
         mShowTopTextureView = findViewById(R.id.cb2);
         mRotateTopTextureView = findViewById(R.id.cb3);

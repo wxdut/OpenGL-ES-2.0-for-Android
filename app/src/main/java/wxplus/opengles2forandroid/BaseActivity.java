@@ -63,6 +63,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    public abstract void init();
     public abstract int layoutResId();
 
     public void startActivity(Class cls) {
@@ -74,13 +75,17 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        mGlView.onPause();
+        if (mGlView != null) {
+            mGlView.onPause();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mGlView.onResume();
+        if (mGlView != null) {
+            mGlView.onResume();
+        }
     }
 
 }

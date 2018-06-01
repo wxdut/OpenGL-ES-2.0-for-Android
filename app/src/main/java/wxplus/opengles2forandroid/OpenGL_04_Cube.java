@@ -21,6 +21,11 @@ import static android.opengl.GLES20.glViewport;
 public class OpenGL_04_Cube extends BaseActivity {
 
     @Override
+    public void init() {
+
+    }
+
+    @Override
     public int layoutResId() {
         return R.layout.activity_04_cube;
     }

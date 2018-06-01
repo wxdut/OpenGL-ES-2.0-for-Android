@@ -29,6 +29,11 @@ public class OpenGL_01_Color extends BaseActivity {
     protected Photo mColorPhoto;
 
     @Override
+    public void init() {
+
+    }
+
+    @Override
     public int layoutResId() {
         return R.layout.activity_01_color;
     }

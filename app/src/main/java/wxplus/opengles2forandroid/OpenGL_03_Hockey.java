@@ -44,6 +44,11 @@ public class OpenGL_03_Hockey extends BaseActivity {
     protected Mallet mBottomMallet;
 
     @Override
+    public void init() {
+
+    }
+
+    @Override
     public int layoutResId() {
         return R.layout.activity_03_hockey;
     }

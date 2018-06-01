@@ -31,6 +31,11 @@ public class OpenGL_05_Lighting extends BaseActivity {
     protected float[] mLightPosition = new float[] {2, 4, -4};
 
     @Override
+    public void init() {
+
+    }
+
+    @Override
     public int layoutResId() {
         return R.layout.activity_05_lighting;
     }

@@ -30,7 +30,6 @@ public class OpenGL_06_Model extends BaseActivity {
 
     @Override
     public int layoutResId() {
-        stringFromJNI();
         return R.layout.activity_06_model;
     }
 
@@ -57,11 +56,6 @@ public class OpenGL_06_Model extends BaseActivity {
         };
     }
 
-    /**
-     * A native method that is implemented by the 'native-lib' native library,
-     * which is packaged with this application.
-     */
-    public native String stringFromJNI();
     public native boolean nativeInit();
     public native void nativeOnSurfaceCreated(EGLConfig config);
     public native void nativeOnSurfaceChanged(int width, int height);

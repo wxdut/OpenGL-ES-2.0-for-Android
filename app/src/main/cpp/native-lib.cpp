@@ -5,17 +5,6 @@
 #include <assimp/postprocess.h>
 
 extern "C"
-JNIEXPORT jstring JNICALL
-Java_wxplus_opengles2forandroid_OpenGL_106_1Model_stringFromJNI(JNIEnv *env, jobject instance) {
-    std::string hello = "Hello from C++";
-    Assimp::Importer importer;
-    const aiScene *scene = importer.ReadFile("", aiProcess_Triangulate | aiProcess_FlipUVs);
-    return env->NewStringUTF(hello.c_str());
-}
-
-
-
-extern "C"
 JNIEXPORT void JNICALL
 Java_wxplus_opengles2forandroid_OpenGL_106_1Model_nativeOnSurfaceCreated(JNIEnv *env,
                                                                          jobject instance,
@@ -23,6 +12,7 @@ Java_wxplus_opengles2forandroid_OpenGL_106_1Model_nativeOnSurfaceCreated(JNIEnv 
     // TODO
 
 }
+
 extern "C"
 JNIEXPORT void JNICALL
 Java_wxplus_opengles2forandroid_OpenGL_106_1Model_nativeOnSurfaceChanged(JNIEnv *env,
@@ -31,15 +21,19 @@ Java_wxplus_opengles2forandroid_OpenGL_106_1Model_nativeOnSurfaceChanged(JNIEnv 
     // TODO
 
 }
+
 extern "C"
 JNIEXPORT void JNICALL
 Java_wxplus_opengles2forandroid_OpenGL_106_1Model_nativeOnDrawFrame(JNIEnv *env, jobject instance) {
     // TODO
 
-}extern "C"
+}
+
+extern "C"
 JNIEXPORT jboolean JNICALL
 Java_wxplus_opengles2forandroid_OpenGL_106_1Model_nativeInit(JNIEnv *env, jobject instance) {
 
     // TODO
-
+    Assimp::Importer importer;
+    const aiScene *scene = importer.ReadFile("", aiProcess_Triangulate | aiProcess_FlipUVs);
 }

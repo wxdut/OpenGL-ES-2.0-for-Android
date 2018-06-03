@@ -11,12 +11,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-
-import javax.microedition.khronos.egl.EGL10;
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.egl.EGLDisplay;
 
 import wxplus.opengles2forandroid.utils.GLog;
 
@@ -61,6 +56,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         } catch (Exception e) {
             GLog.e(TAG, "onCreate, e = " + e);
         }
+        init();
     }
 
     public abstract void init();

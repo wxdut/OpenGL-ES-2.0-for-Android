@@ -14,6 +14,7 @@ import wxplus.opengles2forandroid.utils.ProjectionHelper;
  * @date 2018/5/18
  */
 public class OpenGL_06_Model extends BaseActivity {
+    protected static final String TAG = "OpenGL_06_Model";
 
     // Used to load the 'native-lib' library on application startup.
     static {
@@ -26,7 +27,9 @@ public class OpenGL_06_Model extends BaseActivity {
     @Override
     public void init() {
         mProjectionHelper = new ProjectionHelper();
-        nativeInit(getAssets());
+        if (!nativeInit(getAssets())) {
+            throw new IllegalStateException(TAG + ", init, nativeInit() failed...");
+        }
     }
 
     @Override

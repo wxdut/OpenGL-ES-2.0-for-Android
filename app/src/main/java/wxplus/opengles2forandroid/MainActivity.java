@@ -3,6 +3,7 @@ package wxplus.opengles2forandroid;
 import android.content.pm.ActivityInfo;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -18,8 +19,7 @@ public class MainActivity extends BaseActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void init() {
         getSupportActionBar().setTitle(R.string.app_name);
         View rootView = LayoutInflater.from(this).inflate(R.layout.activity_main, null);
         setContentView(rootView);
@@ -49,6 +49,12 @@ public class MainActivity extends BaseActivity {
             }
         }
         startActivity(OpenGL_06_Model.class);
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        init();
     }
 
     @Override

@@ -29,10 +29,15 @@ add_library( # Sets the name of the library.
 
 find_library( # Sets the name of the path variable.
               log-lib
-
               # Specifies the name of the NDK library that
               # you want CMake to locate.
               log )
+find_library( # Sets the name of the path variable.
+              android-lib
+              # Specifies the name of the NDK library that
+              # you want CMake to locate.
+              android )
+find_library(glesv2-lib GLESv2)
 
 # add prebuilt .so files
 add_library(assimp SHARED IMPORTED)
@@ -52,4 +57,4 @@ target_link_libraries( # Specifies the target library.
                        assimp
                        # Links the target library to the log library
                        # included in the NDK.
-                       ${log-lib} )
+                       ${log-lib} ${android-lib} ${glesv2-lib} android GLESv2 EGL)

@@ -15,7 +15,6 @@
 using namespace std;
 
 unsigned int TextureFromFile(const char *path, const string &directory);
-vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName);
 
 Model::Model(JNIEnv *env, jobject assetManager) {
     loadModel(env, assetManager);
@@ -24,8 +23,8 @@ Model::Model(JNIEnv *env, jobject assetManager) {
 void Model::loadModel(JNIEnv *env, jobject assetManager) {
     // 读取Asset中的obj模型
     AAssetManager *mgr = AAssetManager_fromJava(env, assetManager);
-//    AAsset *asset = AAssetManager_open(mgr, "nanosuit.obj", AASSET_MODE_BUFFER);
-    AAsset *asset = AAssetManager_open(mgr, "chahu.obj", AASSET_MODE_UNKNOWN);
+    AAsset *asset = AAssetManager_open(mgr, "nanosuit.obj", AASSET_MODE_UNKNOWN);
+//    AAsset *asset = AAssetManager_open(mgr, "chahu.obj", AASSET_MODE_UNKNOWN);
 
     if (NULL == asset) {
         LogUtils::e("asset == null");
@@ -114,14 +113,6 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene) {
     vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR,
                                                         "texture_specular");
     textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-    // 3. normal maps
-    std::vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT,
-                                                           "texture_normal");
-    textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
-    // 4. height maps
-    std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT,
-                                                           "texture_height");
-    textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
     // return a mesh object created from the extracted mesh data
     return Mesh(vertices, indices, textures);
@@ -129,16 +120,16 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene) {
 
 // checks all material textures of a given type and loads the textures if they're not loaded yet.
 // the required info is returned as a Texture struct.
-vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName) {
+vector<Texture> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName) {
     vector<Texture> textures;
     for (unsigned int i = 0; i < mat->GetTextureCount(type); i++) {
         aiString str;
         mat->GetTexture(type, i, &str);
         // check if texture was loaded before and if so, continue to next iteration: skip loading a new texture
         bool skip = false;
-        for (unsigned int j = 0; j < Model::textures_loaded.size(); j++) {
-            if (std::strcmp(Model::textures_loaded[j].path.data(), str.C_Str()) == 0) {
-                textures.push_back(Model::textures_loaded[j]);
+        for (unsigned int j = 0; j < textures_loaded.size(); j++) {
+            if (std::strcmp(textures_loaded[j].path.data(), str.C_Str()) == 0) {
+                textures.push_back(textures_loaded[j]);
                 skip = true; // a texture with the same filepath has already been loaded, continue to next one. (optimization)
                 break;
             }
@@ -149,7 +140,8 @@ vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, string
             texture.type = typeName;
             texture.path = str.C_Str();
             textures.push_back(texture);
-            Model::textures_loaded.push_back(texture);  // store it as texture loaded for entire model, to ensure we won't unnecesery load duplicate textures.
+            textures_loaded.push_back(
+                    texture);  // store it as texture loaded for entire model, to ensure we won't unnecesery load duplicate textures.
         }
     }
     return textures;

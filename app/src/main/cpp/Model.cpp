@@ -23,8 +23,8 @@ Model::Model(JNIEnv *env, jobject assetManager) {
 void Model::loadModel(JNIEnv *env, jobject assetManager) {
     // 读取Asset中的obj模型
     AAssetManager *mgr = AAssetManager_fromJava(env, assetManager);
-    AAsset *asset = AAssetManager_open(mgr, "nanosuit.obj", AASSET_MODE_UNKNOWN);
-//    AAsset *asset = AAssetManager_open(mgr, "chahu.obj", AASSET_MODE_UNKNOWN);
+//    AAsset *asset = AAssetManager_open(mgr, "nanosuit.obj", AASSET_MODE_UNKNOWN);
+    AAsset *asset = AAssetManager_open(mgr, "house.obj", AASSET_MODE_UNKNOWN);
 
     if (NULL == asset) {
         LogUtils::e("asset == null");
@@ -74,9 +74,11 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene) {
         vertex.position.x = mesh->mVertices[i].x;
         vertex.position.y = mesh->mVertices[i].y;
         vertex.position.z = mesh->mVertices[i].z;
-        vertex.normal.x = mesh->mNormals[i].x;
-        vertex.normal.y = mesh->mNormals[i].y;
-        vertex.normal.z = mesh->mNormals[i].z;
+        if (mesh->mNormals != NULL) { // 不一定会有normals
+            vertex.normal.x = mesh->mNormals[i].x;
+            vertex.normal.y = mesh->mNormals[i].y;
+            vertex.normal.z = mesh->mNormals[i].z;
+        }
         // texture coordinates
         if (mesh->mTextureCoords[0]) // does the mesh contain texture coordinates?
         {

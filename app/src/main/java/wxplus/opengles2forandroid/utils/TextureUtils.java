@@ -111,7 +111,7 @@ public class TextureUtils {
         }
 
         // Set the active texture unit to texture unit 0.
-        glActiveTexture(GL_TEXTURE0);
+        glActiveTexture(GL_TEXTURE0 + texture);
         // Bind to the texture in OpenGL
         glBindTexture(GL_TEXTURE_2D, texture);
 
@@ -136,9 +136,6 @@ public class TextureUtils {
 
         // Recycle the bitmap, since its data has been loaded into OpenGL.
         bitmap.recycle();
-
-        // Unbind from the texture.
-        glBindTexture(GL_TEXTURE_2D, 0);
 
         return texture;
     }

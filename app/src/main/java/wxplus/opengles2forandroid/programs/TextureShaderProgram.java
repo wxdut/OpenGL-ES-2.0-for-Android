@@ -68,7 +68,7 @@ public class TextureShaderProgram extends BaseShaderProgram {
         // Set the active texture unit to texture unit 0.
         glActiveTexture(GL_TEXTURE0 + textureUnit);
         // Bind the texture to this unit.
-        glBindTexture(GL_TEXTURE_2D, textureUnit);
+//        glBindTexture(GL_TEXTURE_2D, textureUnit);
         // Tell the texture uniform sampler to use this texture in the shader by
         // telling it to read from texture unit 0.
         glUniform1i(uTextureUnitHandle, textureUnit);

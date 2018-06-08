@@ -35,9 +35,8 @@ Java_wxplus_opengles2forandroid_OpenGL_106_1Model_nativeOnDrawFrame(JNIEnv *env,
 
 extern "C"
 JNIEXPORT jboolean JNICALL
-Java_wxplus_opengles2forandroid_OpenGL_106_1Model_nativeInit(JNIEnv *env, jobject instance,
-                                                             jobject assetManager) {
-    Model model(env, assetManager);
+Java_wxplus_opengles2forandroid_OpenGL_106_1Model_nativeInit(JNIEnv *env, jobject instance) {
+    Model model(env);
     LogUtils::d("nativeInit, success~");
 
     return JNI_TRUE;

@@ -1,11 +1,7 @@
 package wxplus.opengles2forandroid;
 
-import android.content.res.AssetManager;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
-import android.os.Environment;
-
-import java.io.File;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -30,11 +26,7 @@ public class OpenGL_06_Model extends BaseActivity {
     @Override
     public void init() {
         mProjectionHelper = new ProjectionHelper();
-        File file = new File("/storage/emulated/0/AA_S9/opengl_3d_models/sculpt.obj");
-        System.out.println("AA "+ file.canRead());
-        file = new File("/storage/emulated/0/AA_S9/opengl_3d_models/tex_1.jpg");
-        System.out.println("AA "+ file.canRead());
-        if (!nativeInit(getAssets())) {
+        if (!nativeInit()) {
             throw new IllegalStateException(TAG + ", init, nativeInit() failed...");
         }
     }
@@ -67,7 +59,7 @@ public class OpenGL_06_Model extends BaseActivity {
         };
     }
 
-    public native boolean nativeInit(AssetManager assetManager);
+    public native boolean nativeInit();
     public native void nativeOnSurfaceCreated(EGLConfig config);
     public native void nativeOnSurfaceChanged(int width, int height);
     public native void nativeOnDrawFrame();

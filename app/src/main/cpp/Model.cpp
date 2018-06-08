@@ -20,7 +20,7 @@ Model::Model(JNIEnv *env, jobject assetManager) {
     loadModel(env, assetManager);
 }
 
-void Model::loadModel(JNIEnv *env, jobject assetManager) {
+/*void Model::loadModel(JNIEnv *env, jobject assetManager) {
     // 读取Asset中的obj模型
     AAssetManager *mgr = AAssetManager_fromJava(env, assetManager);
 //    AAsset *asset = AAssetManager_open(mgr, "nanosuit.obj", AASSET_MODE_UNKNOWN);
@@ -43,6 +43,24 @@ void Model::loadModel(JNIEnv *env, jobject assetManager) {
         string msg;
         msg.append("scene is null, ").append(importer->GetErrorString());
         LogUtils::e(msg);
+    }
+    if (scene->mNumMeshes <= 0) {
+        LogUtils::e("scene->mNumMeshes is 0");
+        return;
+    }
+    processNode(scene->mRootNode, scene);
+}*/
+
+void Model::loadModel(JNIEnv *env, jobject assetManager) {
+
+    // 从得到的buffer生成scene
+    Assimp::Importer *importer = new Assimp::Importer();
+    const aiScene *scene = importer->ReadFile("/storage/emulated/0/AA_S9/opengl_3d_models/sculpt.obj", aiProcess_Triangulate | aiProcess_FlipUVs);
+    if (scene == NULL) {
+        string msg;
+        msg.append("scene is null, ").append(importer->GetErrorString());
+        LogUtils::e(msg);
+        return;
     }
     if (scene->mNumMeshes <= 0) {
         LogUtils::e("scene->mNumMeshes is 0");

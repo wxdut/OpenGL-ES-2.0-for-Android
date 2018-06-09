@@ -27,9 +27,9 @@ public class OpenGL_06_Model extends BaseActivity {
     @Override
     public void init() {
         mProjectionHelper = new ProjectionHelper();
-        if (!nativeInit(getAssets())) {
-            throw new IllegalStateException(TAG + ", init, nativeInit() failed...");
-        }
+//        if (!nativeInit(getAssets())) {
+//            throw new IllegalStateException(TAG + ", init, nativeInit() failed...");
+//        }
     }
 
     @Override
@@ -42,26 +42,23 @@ public class OpenGL_06_Model extends BaseActivity {
         return new GLSurfaceView.Renderer() {
             @Override
             public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-                nativeOnSurfaceCreated(config);
+                nativeInit(getAssets());
             }
 
             @Override
             public void onSurfaceChanged(GL10 gl, int width, int height) {
-                final int fov = 120;
-                float screenAspect = width * 1.0f / height;
-                Matrix.perspectiveM(mProjectionHelper.projectionMatrix, 0, fov, screenAspect, 1f, 10f);
                 nativeOnSurfaceChanged(width, height);
             }
 
             @Override
             public void onDrawFrame(GL10 gl) {
-                nativeOnDrawFrame();
+//                nativeOnDrawFrame();
             }
         };
     }
 
-    public native boolean nativeInit(AssetManager assetManager);
-    public native void nativeOnSurfaceCreated(EGLConfig config);
-    public native void nativeOnSurfaceChanged(int width, int height);
-    public native void nativeOnDrawFrame();
+    public native static boolean nativeInit(AssetManager assetManager);
+    public native static void nativeOnSurfaceCreated(EGLConfig config);
+    public native static void nativeOnSurfaceChanged(int width, int height);
+    public native static void nativeOnDrawFrame();
 }

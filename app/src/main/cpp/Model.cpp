@@ -18,12 +18,18 @@
 
 using namespace std;
 
+
+extern jobject assetManager;
+extern JNIEnv *env;
+extern Shader *shader;
+extern glm::mat4 projectionMatrix;
+
 unsigned int TextureFromFile(const char *path, const string &directory);
 
-Model::Model(JNIEnv *env, jobject assetManager) {
-    this->env = env;
-    this->assetManager = assetManager;
-    this->shader = Shader();
+Model::Model(JNIEnv *jniEnv, jobject am) {
+    env = jniEnv;
+    assetManager = am;
+    shader = new Shader();
     loadModel(env);
 }
 

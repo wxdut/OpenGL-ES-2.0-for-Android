@@ -11,6 +11,8 @@
 #include "Shader.h"
 #include "jni.h"
 
+extern glm::mat4 projectionMatrix;
+
 class Model {
 
 public:
@@ -18,12 +20,6 @@ public:
     vector<Texture> textures_loaded;    // stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
     vector<Mesh> meshes;
     string directory;
-
-    static jobject assetManager;
-    static JNIEnv *env;
-    static Shader shader;
-    static glm::mat4 projectionMatrix;
-    static int i;
 
     Model(JNIEnv *env, jobject assetManager);
 

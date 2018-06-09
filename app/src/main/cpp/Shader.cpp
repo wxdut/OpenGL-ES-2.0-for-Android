@@ -10,10 +10,13 @@
 #include "Model.h"
 #include "string"
 
+extern jobject assetManager;
+extern JNIEnv *env;
+
 Shader::Shader() {
     // Compile the shaders and link the program.
 
-    AAssetManager *mgr = AAssetManager_fromJava(Model::env, Model::assetManager);
+    AAssetManager *mgr = AAssetManager_fromJava(env, assetManager);
     AAsset *asset = AAssetManager_open(mgr, "gl_06_model.vs", AASSET_MODE_BUFFER);
     long len = AAsset_getLength64(asset);
     char *buffer;

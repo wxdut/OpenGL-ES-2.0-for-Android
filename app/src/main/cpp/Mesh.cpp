@@ -6,6 +6,9 @@
 #include "Mesh.h"
 #include "Model.h"
 
+extern Shader *shader;
+extern glm::mat4 projectionMatrix;
+
 Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures) {
     this->vertices = vertices;
     this->indices = indices;
@@ -15,22 +18,22 @@ Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture
 }
 
 void Mesh::setupMesh() {
-    glUseProgram(Model::shader.program);
+    glUseProgram(shader->program);
 
-    glEnableVertexAttribArray(Model::shader.aPositionHandle);
-    glVertexAttribPointer(Model::shader.aPositionHandle, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+    glEnableVertexAttribArray(shader->aPositionHandle);
+    glVertexAttribPointer(shader->aPositionHandle, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
                           &vertices[0].normal);
 
-    glEnableVertexAttribArray(Model::shader.aPositionHandle);
-    glVertexAttribPointer(Model::shader.aTextureCoordinatesHandle, 3, GL_FLOAT, GL_FALSE,
+    glEnableVertexAttribArray(shader->aPositionHandle);
+    glVertexAttribPointer(shader->aTextureCoordinatesHandle, 3, GL_FLOAT, GL_FALSE,
                           sizeof(Vertex), &vertices[0].texCoords);
 
-    glUniformMatrix4fv(Model::shader.uMatrixHandle, 1, GL_FALSE,
-                       glm::value_ptr(Model::projectionMatrix));
+    glUniformMatrix4fv(shader->uMatrixHandle, 1, GL_FALSE,
+                       glm::value_ptr(projectionMatrix));
 }
 
 void Mesh::draw() {
     glActiveTexture(GL_TEXTURE0);
-    glUniform1i(Model::shader.uTextureUnitHandle, 0);
+    glUniform1i(shader->uTextureUnitHandle, 0);
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, &indices);
 }

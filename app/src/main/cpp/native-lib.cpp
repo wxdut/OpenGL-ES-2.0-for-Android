@@ -8,35 +8,33 @@
 
 using namespace std;
 
-extern "C"
+Model* model;
+
+//extern "C"
 JNIEXPORT void JNICALL
 Java_wxplus_opengles2forandroid_OpenGL_106_1Model_nativeOnSurfaceCreated(JNIEnv *env,
                                                                          jobject instance,
                                                                          jobject config) {
-    // TODO
-
 }
 
-extern "C"
+//extern "C"
 JNIEXPORT void JNICALL
 Java_wxplus_opengles2forandroid_OpenGL_106_1Model_nativeOnSurfaceChanged(JNIEnv *env,
                                                                          jobject instance,
                                                                          jint width, jint height) {
-    // TODO
-
+    model->onSurfaceChanged(width, height);
 }
 
-extern "C"
+//extern "C"
 JNIEXPORT void JNICALL
 Java_wxplus_opengles2forandroid_OpenGL_106_1Model_nativeOnDrawFrame(JNIEnv *env, jobject instance) {
-    // TODO
-
+    model->onDrawFrame();
 }
 
-extern "C"
+//extern "C"
 JNIEXPORT jboolean JNICALL
-Java_wxplus_opengles2forandroid_OpenGL_106_1Model_nativeInit(JNIEnv *env, jobject instance) {
-    Model model(env);
+Java_wxplus_opengles2forandroid_OpenGL_106_1Model_nativeInit(JNIEnv *env, jobject instance, jobject assetManager) {
+    model = new Model(env, assetManager);
     LogUtils::d("nativeInit, success~");
 
     return JNI_TRUE;

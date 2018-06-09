@@ -13,7 +13,6 @@ using namespace std;
 
 class TextureHelper {
 public:
-    static list<int> sTextureUnits;
     static int obtain() {
         GLuint texture;
         glGenTextures(1, &texture);
@@ -21,7 +20,6 @@ public:
             LogUtils::e("obtain, Could not generate a new OpenGL texture object.");
             return 0;
         }
-        sTextureUnits.push_back(texture);
         return texture;
     }
 

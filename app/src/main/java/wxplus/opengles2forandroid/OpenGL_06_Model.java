@@ -9,6 +9,8 @@ import javax.microedition.khronos.opengles.GL10;
 
 import wxplus.opengles2forandroid.utils.ProjectionHelper;
 
+import static wxplus.opengles2forandroid.OpenGL_06_Model.nativeInit;
+
 /**
  * @author WangXiaoPlus
  * @date 2018/5/18
@@ -27,9 +29,6 @@ public class OpenGL_06_Model extends BaseActivity {
     @Override
     public void init() {
         mProjectionHelper = new ProjectionHelper();
-//        if (!nativeInit(getAssets())) {
-//            throw new IllegalStateException(TAG + ", init, nativeInit() failed...");
-//        }
     }
 
     @Override
@@ -47,18 +46,18 @@ public class OpenGL_06_Model extends BaseActivity {
 
             @Override
             public void onSurfaceChanged(GL10 gl, int width, int height) {
-                nativeOnSurfaceChanged(width, height);
+                nativeSurfaceChanged(width, height);
             }
 
             @Override
             public void onDrawFrame(GL10 gl) {
-//                nativeOnDrawFrame();
+                nativeDrawFrame();
             }
         };
     }
 
-    public native static boolean nativeInit(AssetManager assetManager);
-    public native static void nativeOnSurfaceCreated(EGLConfig config);
-    public native static void nativeOnSurfaceChanged(int width, int height);
-    public native static void nativeOnDrawFrame();
+    public static native boolean nativeInit(AssetManager assetManager);
+    public static native void nativeSurfaceChanged(int width, int height);
+    public static native void nativeDrawFrame();
+
 }

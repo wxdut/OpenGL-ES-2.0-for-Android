@@ -19,15 +19,16 @@ Shader::Shader() {
     AAssetManager *mgr = AAssetManager_fromJava(env, assetManager);
     AAsset *asset = AAssetManager_open(mgr, "gl_06_model.vs", AASSET_MODE_BUFFER);
     long len = AAsset_getLength64(asset);
-    char *buffer;
+    char *buffer = (char *) malloc(sizeof(char) * len);
     AAsset_read(asset, buffer, len);
-    string vsSource = string(buffer);
+    string vsSource(buffer);
     AAsset_close(asset);
 
     asset = AAssetManager_open(mgr, "gl_06_model.fs", AASSET_MODE_BUFFER);
     len = AAsset_getLength64(asset);
+    buffer = (char *) malloc(sizeof(char) * len);
     AAsset_read(asset, buffer, len);
-    string fsSource = string(buffer);
+    string fsSource(buffer);
     AAsset_close(asset);
 
     program = buildProgram(vsSource, fsSource);

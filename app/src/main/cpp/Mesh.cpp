@@ -22,9 +22,9 @@ void Mesh::setupMesh() {
 
     glEnableVertexAttribArray(shader->aPositionHandle);
     glVertexAttribPointer(shader->aPositionHandle, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-                          &vertices[0].normal);
+                          &vertices[0].position);
 
-    glEnableVertexAttribArray(shader->aPositionHandle);
+    glEnableVertexAttribArray(shader->aTextureCoordinatesHandle);
     glVertexAttribPointer(shader->aTextureCoordinatesHandle, 3, GL_FLOAT, GL_FALSE,
                           sizeof(Vertex), &vertices[0].texCoords);
 
@@ -33,7 +33,7 @@ void Mesh::setupMesh() {
 }
 
 void Mesh::draw() {
-    glActiveTexture(GL_TEXTURE0);
-    glUniform1i(shader->uTextureUnitHandle, 0);
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, &indices);
+    glActiveTexture(GL_TEXTURE0 + textures[0].id);
+    glUniform1i(shader->uTextureUnitHandle, textures[0].id);
+    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, &indices[0]);
 }

@@ -1,13 +1,12 @@
-uniform mat4 u_Matrix; // 正交变换
+uniform mat4 u_Matrix;
 
-attribute vec4 a_Position; // 顶点坐标
-attribute vec2 a_TextureCoordinates; // Texture坐标
+attribute vec3 a_Position;
+attribute vec2 a_TextureCoordinates;
 
-varying vec2 v_TextureCoordinates; // 透传给Fragment Shader
+varying vec2 v_TextureCoordinates;
 
 void main()
 {
     v_TextureCoordinates = a_TextureCoordinates;
-    gl_Position = u_Matrix * a_Position;
-
+    gl_Position = u_Matrix * vec4(a_Position, 1.0);
 }

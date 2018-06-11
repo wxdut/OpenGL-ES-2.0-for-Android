@@ -36,5 +36,5 @@ Java_wxplus_opengles2forandroid_OpenGL_106_1Model_nativeSurfaceChanged(JNIEnv *e
 extern "C"
 JNIEXPORT void JNICALL
 Java_wxplus_opengles2forandroid_OpenGL_106_1Model_nativeDrawFrame(JNIEnv *env, jclass type) {
-//    model->onDrawFrame();
+    model->onDrawFrame();
 }

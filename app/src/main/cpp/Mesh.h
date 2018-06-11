@@ -28,6 +28,7 @@ public:
     vector<Vertex> vertices;
     vector<unsigned int> indices;
     vector<Texture> textures;
+    unsigned int vbo, ibo;
 
     /*  Functions  */
     Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures);

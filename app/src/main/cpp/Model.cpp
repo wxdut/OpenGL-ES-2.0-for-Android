@@ -186,6 +186,6 @@ unsigned int TextureFromFile(const char *path, const string &directory) {
         stbi_image_free(data);
     }
 
-    return 0;
+    return textureID;
 }
 

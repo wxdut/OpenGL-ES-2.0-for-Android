@@ -70,7 +70,11 @@ int Shader::compileShader(int type, string shaderCode) {
     int compileStatus[1];
     glGetShaderiv(shaderObjectId, GL_COMPILE_STATUS, compileStatus);
 
-//        GLog.d(TAG, "Results of compiling source:" + "\n" + shaderCode + "\n:" + glGetShaderInfoLog(shaderObjectId));
+    char *buffer = (char *) malloc(sizeof(char) * 200);
+    string log;
+    glGetShaderInfoLog(shaderObjectId, 200, NULL, buffer);
+    log.append("Results of compiling source: ").append(shaderCode).append(buffer);
+    LogUtils::d(log);
 
     // Verify the compile status.
     if (compileStatus[0] == 0) {

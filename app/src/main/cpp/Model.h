@@ -43,7 +43,7 @@ public:
 //        glm::vec3 viewMatrix(0);
 //        viewMatrix.z = 10;
 //        projectionMatrix = glm::translate(projectionMatrix, viewMatrix);
-        projectionMatrix = glm::ortho(-20.0, 20.0, -20.0, 20.0, -20.0, 20.0);
+        projectionMatrix = glm::ortho(-20.0, 20.0, -40.0, 40.0, -1000.0, 1000.0);
     }
 
     void onDrawFrame() {

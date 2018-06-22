@@ -37,7 +37,7 @@ void Model::loadModel(JNIEnv *env) {
 
     // 从得到的buffer生成scene
     Assimp::Importer *importer = new Assimp::Importer();
-    const aiScene *scene = importer->ReadFile("/storage/emulated/0/AA_S9/opengl_3d_models/sculpt.obj", aiProcess_Triangulate | aiProcess_FlipUVs);
+    const aiScene *scene = importer->ReadFile("/storage/emulated/0/AA_S9/opengl_3d_models/nanosuit/nanosuit.obj", aiProcess_Triangulate | aiProcess_FlipUVs);
     if (scene == NULL) {
         string msg;
         msg.append("scene is null, ").append(importer->GetErrorString());
@@ -53,7 +53,7 @@ void Model::loadModel(JNIEnv *env) {
 
 void Model::processNode(aiNode *node, const aiScene *scene) {
     // process each mesh located at the current node
-    for (int i = 0; i < node->mNumMeshes; ++i) {
+    for (int i = 0; i < node->mNumMeshes; i++) {
         aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
         meshes.push_back(processMesh(mesh, scene));
     }
@@ -95,8 +95,9 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene) {
     for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
         aiFace face = mesh->mFaces[i];
         // retrieve all indices of the face and store them in the indices vector
-        for (unsigned int j = 0; j < face.mNumIndices; j++)
+        for (unsigned int j = 0; j < face.mNumIndices; j++) {
             indices.push_back(face.mIndices[j]);
+        }
     }
     // process materials
     aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
@@ -138,7 +139,7 @@ vector<Texture> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType type,
         }
         if (!skip) {   // if texture hasn't been loaded already, load it
             Texture texture;
-            texture.id = TextureFromFile(str.C_Str(), "/storage/emulated/0/AA_S9/opengl_3d_models");
+            texture.id = TextureFromFile(str.C_Str(), "/storage/emulated/0/AA_S9/opengl_3d_models/nanosuit");
             texture.type = typeName;
             texture.path = str.C_Str();
             textures.push_back(texture);
@@ -150,8 +151,9 @@ vector<Texture> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType type,
 }
 
 void Model::draw() {
-    for(unsigned int i = 0; i < meshes.size(); i++)
+    for(unsigned int i = 0; i < meshes.size(); i++) {
         meshes[i].draw();
+    }
 }
 
 unsigned int TextureFromFile(const char *path, const string &directory) {

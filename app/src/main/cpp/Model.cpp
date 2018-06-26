@@ -37,7 +37,8 @@ void Model::loadModel(JNIEnv *env) {
 
     // 从得到的buffer生成scene
     Assimp::Importer *importer = new Assimp::Importer();
-    const aiScene *scene = importer->ReadFile("/storage/emulated/0/AA_S9/opengl_3d_models/nanosuit/nanosuit.obj", aiProcess_Triangulate | aiProcess_FlipUVs);
+    const aiScene *scene = importer->ReadFile("/storage/emulated/0/AA_S9/opengl_3d_models/nanosuit/nanosuit.obj", aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_ValidateDataStructure | aiProcess_JoinIdenticalVertices | aiProcess_SplitLargeMeshes);
+    LogUtils::e("loadModel, importError = " + string(importer->GetErrorString()));
     if (scene == NULL) {
         string msg;
         msg.append("scene is null, ").append(importer->GetErrorString());
@@ -69,15 +70,15 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene) {
     vector<unsigned int> indices;
     vector<Texture> textures;
     // Walk through each of the mesh's vertices
-    for (int i = 0; i < mesh->mNumVertices; ++i) {
+    for (int i = 0; i < mesh->mNumVertices; i++) {
         Vertex vertex;
         vertex.position.x = mesh->mVertices[i].x;
         vertex.position.y = mesh->mVertices[i].y;
         vertex.position.z = mesh->mVertices[i].z;
         if (mesh->mNormals != NULL) { // 不一定会有normals
-            vertex.normal.x = mesh->mNormals[i].x;
-            vertex.normal.y = mesh->mNormals[i].y;
-            vertex.normal.z = mesh->mNormals[i].z;
+//            vertex.normal.x = mesh->mNormals[i].x;
+//            vertex.normal.y = mesh->mNormals[i].y;
+//            vertex.normal.z = mesh->mNormals[i].z;
         }
         // texture coordinates
         if (mesh->mTextureCoords[0]) // does the mesh contain texture coordinates?
@@ -95,6 +96,7 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene) {
     for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
         aiFace face = mesh->mFaces[i];
         // retrieve all indices of the face and store them in the indices vector
+        assert(face.mNumIndices == 3);
         for (unsigned int j = 0; j < face.mNumIndices; j++) {
             indices.push_back(face.mIndices[j]);
         }
@@ -151,6 +153,14 @@ vector<Texture> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType type,
 }
 
 void Model::draw() {
+
+    glClearColor(1, 1, 1, 1);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+
+    glUniformMatrix4fv(shader->uMatrixHandle, 1, GL_FALSE,
+                       glm::value_ptr(projectionMatrix));
+
     for(unsigned int i = 0; i < meshes.size(); i++) {
         meshes[i].draw();
     }

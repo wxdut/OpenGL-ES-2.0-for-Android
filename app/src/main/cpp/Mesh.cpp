@@ -18,20 +18,11 @@ Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture
 }
 
 void Mesh::setupMesh() {
-    glUseProgram(shader->program);
 
     glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0],
                  GL_STATIC_DRAW);
-
-    glEnableVertexAttribArray(shader->aPositionHandle);
-    glVertexAttribPointer(shader->aPositionHandle, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-                          (void *) offsetof(Vertex, position));
-
-    glEnableVertexAttribArray(shader->aTextureCoordinatesHandle);
-    glVertexAttribPointer(shader->aTextureCoordinatesHandle, 2, GL_FLOAT, GL_FALSE,
-                          sizeof(Vertex), (void *) offsetof(Vertex, texCoords));
 
     glGenBuffers(1, &ibo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
@@ -44,12 +35,11 @@ void Mesh::setupMesh() {
 
 void Mesh::draw() {
 
-    glClearColor(1, 1, 1, 1);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glEnable(GL_DEPTH_TEST);
-
-    glUniformMatrix4fv(shader->uMatrixHandle, 1, GL_FALSE,
-                       glm::value_ptr(projectionMatrix));
+    if (textures.size() != 1) {
+        // 目前只处理了size==1的情况，不等于1先抛异常
+        int size = textures.size();
+//        throw "textures.size() = " + textures.size();
+    }
 
     glActiveTexture(GL_TEXTURE0 + textures[0].id);
     glUniform1i(shader->uTextureUnitHandle, textures[0].id);
@@ -57,6 +47,13 @@ void Mesh::draw() {
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+    glVertexAttribPointer(shader->aPositionHandle, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+                          (void *) offsetof(Vertex, position));
+    glEnableVertexAttribArray(shader->aPositionHandle);
 
+    glVertexAttribPointer(shader->aTextureCoordinatesHandle, 2, GL_FLOAT, GL_FALSE,
+                          sizeof(Vertex), (void *) offsetof(Vertex, texCoords));
+    glEnableVertexAttribArray(shader->aTextureCoordinatesHandle);
+
+    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT , 0);
 }

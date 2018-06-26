@@ -39,6 +39,8 @@ Shader::Shader() {
 
     aPositionHandle = glGetAttribLocation(program, "a_Position");
     aTextureCoordinatesHandle = glGetAttribLocation(program, "a_TextureCoordinates");
+
+    glUseProgram(program);
 }
 
 int Shader::compileVertexShader(string shaderCode) {

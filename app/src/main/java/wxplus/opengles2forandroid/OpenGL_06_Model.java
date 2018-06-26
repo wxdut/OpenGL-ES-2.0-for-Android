@@ -2,14 +2,11 @@ package wxplus.opengles2forandroid;
 
 import android.content.res.AssetManager;
 import android.opengl.GLSurfaceView;
-import android.opengl.Matrix;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import wxplus.opengles2forandroid.utils.ProjectionHelper;
-
-import static wxplus.opengles2forandroid.OpenGL_06_Model.nativeInit;
 
 /**
  * @author WangXiaoPlus

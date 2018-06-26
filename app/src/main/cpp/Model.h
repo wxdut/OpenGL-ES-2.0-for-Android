@@ -39,10 +39,13 @@ private:
 
 public:
     void onSurfaceChanged(jint width, jint height) {
-        projectionMatrix = glm::perspective(90.0, width / (height * 1.0), 1.0, 100.0);
-        glm::vec3 viewMatrix(0);
-        viewMatrix.z = -8;
-        projectionMatrix = glm::translate(projectionMatrix, viewMatrix);
+//        projectionMatrix = glm::perspective(90.0, width / (height * 1.0), 1.0, 100.0);
+//        glm::vec3 viewMatrix(0);
+//        viewMatrix.z = -8;
+//        projectionMatrix = glm::translate(projectionMatrix, viewMatrix);
+        float rate = height * 1.0f / width;
+        float w = 10;
+        projectionMatrix = glm::ortho(-w, w, -rate * w, rate * w, -50.0f, 50.0f);
     }
 
     void onDrawFrame() {

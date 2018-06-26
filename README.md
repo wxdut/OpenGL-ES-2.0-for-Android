@@ -11,5 +11,6 @@
 ![OpenGL_03_Hockey](https://cdn.wxdut.com/media/15278506095188/OpenGL_03_Hockey.jpg)
 ![OpenGL_04_Cube](https://cdn.wxdut.com/media/15278506095188/OpenGL_04_Cube.gif)
 ![OpenGL_05_Lighting](https://cdn.wxdut.com/media/15278506095188/OpenGL_05_Lighting.gif)
+![OpenGL_05_Model](https://cdn.wxdut.com/media/15278506095188/OpenGL_05_Model.jpeg)
 
 

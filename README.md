@@ -4,10 +4,10 @@
 
 ## 内容和功能
 
-![OpenGL_02_Texture](media/15278506095188/OpenGL_02_Texture.gif)
+![OpenGL_02_Texture](http://cdn.wxdut.com/media/15278506095188/OpenGL_02_Texture.gif)
 
-![OpenGL_04_Cube](media/15278506095188/OpenGL_04_Cube.gif)
-![OpenGL_05_Lighting](media/15278506095188/OpenGL_05_Lighting.gif)
-![OpenGL_05_Mode](media/15278506095188/OpenGL_05_Model.jpeg)
-![hero_male](media/15278506095188/hero_male.gif)
-![hero_female](media/15278506095188/hero_female.gif)
+![OpenGL_04_Cube](http://cdn.wxdut.com/media/15278506095188/OpenGL_04_Cube.gif)
+![OpenGL_05_Lighting](http://cdn.wxdut.com/media/15278506095188/OpenGL_05_Lighting.gif)
+![OpenGL_05_Mode](http://cdn.wxdut.com/media/15278506095188/OpenGL_05_Model.jpeg)
+![hero_male](http://cdn.wxdut.com/media/15278506095188/hero_male.gif)
+![hero_female](http://cdn.wxdut.com/media/15278506095188/hero_female.gif)

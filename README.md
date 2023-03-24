@@ -4,11 +4,11 @@
 
 ## 内容和功能
 
-![OpenGL_01_Colo](https://cdn.wxdut.com/media/15278506095188/OpenGL_01_Color.gif)
-![OpenGL_02_Texture](https://cdn.wxdut.com/media/15278506095188/OpenGL_02_Texture.gif)
-![OpenGL_03_Hockey](https://cdn.wxdut.com/media/15278506095188/OpenGL_03_Hockey.jpg)
-![OpenGL_04_Cube](https://cdn.wxdut.com/media/15278506095188/OpenGL_04_Cube.gif)
-![OpenGL_05_Lighting](https://cdn.wxdut.com/media/15278506095188/OpenGL_05_Lighting.gif)
-![OpenGL_05_Model](https://cdn.wxdut.com/media/15278506095188/OpenGL_05_Model.jpeg)
+![OpenGL_01_Colo](https://wxdut.com/media/15278506095188/OpenGL_01_Color.gif)
+![OpenGL_02_Texture](https://wxdut.com/media/15278506095188/OpenGL_02_Texture.gif)
+![OpenGL_03_Hockey](https://wxdut.com/media/15278506095188/OpenGL_03_Hockey.jpg)
+![OpenGL_04_Cube](https://wxdut.com/media/15278506095188/OpenGL_04_Cube.gif)
+![OpenGL_05_Lighting](https://wxdut.com/media/15278506095188/OpenGL_05_Lighting.gif)
+![OpenGL_05_Model](https://wxdut.com/media/15278506095188/OpenGL_05_Model.jpeg)
 
 
